@@ -9,7 +9,7 @@ Ludo (from Latin ludo, "I play") is a board game for two to four players, in whi
 2. Ali Qornan Jaisyurrahman
 3. Dyas Nurhakim Sudiana
 4. Lulu Luthfiyatul Azkiya
-5. M. Firizki Emsa
+5. Muhammad Firizki Emsa
 6. Rifqi M. Fauzi
 
 Politeknik Negeri Bandung, Indonesia
