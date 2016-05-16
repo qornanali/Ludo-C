@@ -18,5 +18,6 @@ int main() {
 			count++;
 		}
 	cek_win();
+	printf("aksfbakjsfbjhakshfahvjf");
 	return 0;
 }
