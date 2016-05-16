@@ -1,5 +1,7 @@
 #include "list.h"
 
+//ini buat list
+
 void CreateList( Node *List)
 	{
 		*List = Nil;
