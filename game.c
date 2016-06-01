@@ -56,13 +56,15 @@ int odd_even( int opt, int value)
 	}
 
 int shake_dice( int opt, int x, int y, int No_Player)
-	{
-		int i,j,stop = 0,start,bar,isplus,value;
-		srand(time(NULL));
-		i = rand() % 5;
-		j = 0;
-		stop = 0;
-		drawdice(x, y, 6);
+{
+	int i,j,stop = 0,start=32,bar,isplus,value,lama;
+	srand(time(NULL));
+	lama=rand()%9+1;
+	i = rand() % 5;
+	j = 0;
+	stop = 0;
+	drawdice(x, y, 6);
+	if(mode==6||No_Player==0){
 		gotoxy(x-1,y+7);setcolor(16*8+0);printf("Tekan Spasi");
 		gotoxy(x-1,y+8);		printf("untuk Start");
 		do
@@ -70,21 +72,25 @@ int shake_dice( int opt, int x, int y, int No_Player)
 				start = getch();
 			}
 		while(start != 32);
-		bar=0;
-		while(start == 32 && stop != 32)
-			{
-				Sleep(80);
-				value = Dice_Pattern[j][i];
-				if( opt > 1)
-					{
-						value = odd_even(opt, value);
-					}
-				drawdice(x, y, value);				
-				gotoxy(x-1+(bar%10),y+6);setcolor(16*2);printf(" ");setcolor(8);setcolor(16*8+0);
-					
-				if(bar%10==9){
-					gotoxy(x-1,y+6);setcolor(16*8+0);printf("          ");
+	}
+	setcolor(16*8+0);
+	bar=0;
+	//if(mode==7&&No_Player!=0)while(1)printf("1");
+	while(start == 32 && stop != 32 && (No_Player==0 || lama!=0))
+		{
+			Sleep(80);
+			value = Dice_Pattern[j][i];
+			if( opt > 1)
+				{
+					value = odd_even(opt, value);
 				}
+			drawdice(x, y, value);				
+			gotoxy(x-1+(bar%10),y+6);setcolor(16*2);printf(" ");setcolor(8);setcolor(16*8+0);
+				
+			if(bar%10==9){
+				gotoxy(x-1,y+6);setcolor(16*8+0);printf("          ");
+			}
+			if(mode==6||No_Player==0){
 				gotoxy(x-1,y+7);setcolor(16*8+0);		printf("Tekan Spasi");
 				gotoxy(x-1,y+8);		printf("untuk Stop ");setcolor(16*8+0);
 				if (kbhit()) 
@@ -92,14 +98,17 @@ int shake_dice( int opt, int x, int y, int No_Player)
 						stop=getch();
 						return value;
 					}
-				if( j == 5)
-					{
-						j = 0;
-					}
-				bar++;
-				j++;
 			}
-				
+			setcolor(16*8+0);
+			if( j == 5)
+				{
+					j = 0;
+				}
+			if(mode==7)lama--;
+			bar++;
+			j++;
+		}
+	return value;
 	}
 
 Lokasi posisi_koordinat(int posisi){
