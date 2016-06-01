@@ -58,7 +58,7 @@ Player ListPlayer[4];
 int home[4][4];
 int Dice_Pattern[6][6];
 
-int terbesar;
+int terbesar,mode;
 /* --------------------- Prototype -------------------- */
 
 /* UI Prototype */
