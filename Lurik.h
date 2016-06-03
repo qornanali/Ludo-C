@@ -100,8 +100,11 @@ Node SearchNodeToEat( Node List, int value);
 void keluarin_pion(int noPlayer);
 int petak_awal_player(int noPlayer);
 int step_left_to_be_eaten(int noPlayer,Node *temp);
+int step_left_to_eat(int noPlayer,Node *temp);
+int safe_zone_player(int noPlayer);
 int finish_player(int noPlayer);
 int step_left_to_finish(int noPlayer,Node *temp);
+int ada_pion_di_home(int noPlayer);
 int tdk_ada_pion_di_petak_awal(int noPlayer);
 void comp_turn(int noPlayer);
 
