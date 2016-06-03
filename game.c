@@ -57,21 +57,39 @@ int odd_even( int opt, int value)
 
 int shake_dice( int opt, int x, int y, int No_Player)
 	{
-		int i,j,stop = 0,start,bar,isplus,value;
+		int i,j,stop = 0,start=32,bar,isplus,value,lama,no_pcheat,dadu;
 		srand(time(NULL));
+		lama=rand()%9+1;
 		i = rand() % 5;
 		j = 0;
 		stop = 0;
 		drawdice(x, y, 6);
-		gotoxy(x-1,y+7);setcolor(16*8+0);printf("Tekan Spasi");
-		gotoxy(x-1,y+8);		printf("untuk Start");
-		do
-			{
-				start = getch();
-			}
-		while(start != 32);
+		if(mode==6||No_Player==0){
+			gotoxy(x-1,y+7);setcolor(16*8+0);printf("Tekan Spasi");
+			gotoxy(x-1,y+8);		printf("untuk Start");
+			do
+				{
+					start = getch();
+					if(start==55){
+						scanf("%d",&no_pcheat);
+						keluarin_pion(no_pcheat);gotoxy(x-1,y+8);
+						Node temp;
+						temp=ListPlayer[no_pcheat].Pion;
+						while(temp->next!=NULL)temp=temp->next;
+						scanf("%d",&dadu);
+						if(dadu<no_pcheat*14&&no_pcheat>0)dadu+=52;else
+						if(dadu>52)dadu=dadu-no_pcheat*6+(no_pcheat*13+1)-1;
+						dadu=dadu-(no_pcheat*13+1);
+						moving(no_pcheat,temp,dadu);
+						gotoxy(0,60);printf("%d",dadu);
+					}
+				}
+			while(start != 32);
+		}
+		setcolor(16*8+0);
 		bar=0;
-		while(start == 32 && stop != 32)
+		//if(mode==7&&No_Player!=0)while(1)printf("1");
+		while(start == 32 && stop != 32 && (No_Player==0 || lama!=0))
 			{
 				Sleep(80);
 				value = Dice_Pattern[j][i];
@@ -85,21 +103,25 @@ int shake_dice( int opt, int x, int y, int No_Player)
 				if(bar%10==9){
 					gotoxy(x-1,y+6);setcolor(16*8+0);printf("          ");
 				}
-				gotoxy(x-1,y+7);setcolor(16*8+0);		printf("Tekan Spasi");
-				gotoxy(x-1,y+8);		printf("untuk Stop ");setcolor(16*8+0);
-				if (kbhit()) 
-					{
-						stop=getch();
-						return value;
-					}
+				if(mode==6||No_Player==0){
+					gotoxy(x-1,y+7);setcolor(16*8+0);		printf("Tekan Spasi");
+					gotoxy(x-1,y+8);		printf("untuk Stop ");setcolor(16*8+0);
+					if (kbhit()) 
+						{
+							stop=getch();
+							return value;
+						}
+				}
+				setcolor(16*8+0);
 				if( j == 5)
 					{
 						j = 0;
 					}
+				if(mode==7)lama--;
 				bar++;
 				j++;
 			}
-				
+		return value;
 	}
 
 Lokasi posisi_koordinat(int posisi){
@@ -431,8 +453,8 @@ int Play()
 	}
 	
 Node cekfront(int mynoplayer, int posisi, int *hisnoplayer){
-int belok,depan,posisidepan;
-switch(mynoplayer){
+	int belok,depan,posisidepan;
+	switch(mynoplayer){
 		case 0 :
 			belok = 51;
 			depan = 52;

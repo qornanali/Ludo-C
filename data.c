@@ -5,17 +5,34 @@ void prepareplayer(int x, int y, int n){
 	setcolor(16*8+0);
 	gotoxy(x,y);
 	nplayer  = n;
-	int i,dadu,xdadu;
+	char namabot[6][20]={"Suta [BOT]","Ali [BOT]","Dyas [BOT]","Firizki [BOT]","Lulu [BOT]","Rifqi [BOT]"};
+	char avainama[6]={"ffffff"};
+	int i,dadu,xdadu,no;
 	xdadu = 0;
 	terbesar = 0;
 	for(i = 0;i<nplayer;i++){
 		system("cls");
 		setcolor(16*8+0);
 		gotoxy(x,y);
-		printf("Nama Pemain %d",(i+1));
+		if(i==0||mode==6)
+			printf("Nama Pemain %d",(i+1));
+		else
+			printf("Nama BOT %d",(i+1));
 		draw_shape(x,y+1,30,1,2);
 		gotoxy(x+1,y+2);
-		scanf("%s",&ListPlayer[i].Info.nama);
+		if(mode==6||i==0){
+			scanf("%s",&ListPlayer[i].Info.nama);
+		}else{
+			srand(time(NULL));
+			no=rand()%6;
+			while(avainama[no]=='t'){
+				srand(time(NULL));
+				no=rand()%6;
+			}
+			strcpy(ListPlayer[i].Info.nama,namabot[no]);
+			avainama[no]='t';
+			printf("%s",ListPlayer[i].Info.nama);
+		}
 		dadu = 1;
 		dadu = shake_dice(1,x+1,y+5,i);
 		if(xdadu<dadu){
@@ -24,7 +41,6 @@ void prepareplayer(int x, int y, int n){
 		}
 		Sleep(1000);
 	}
-//	getch();
 }
 
 void swapvalue(int *a, int *b){
