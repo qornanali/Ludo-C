@@ -57,7 +57,7 @@ int odd_even( int opt, int value)
 
 int shake_dice( int opt, int x, int y, int No_Player)
 	{
-		int i,j,stop = 0,start=32,bar,isplus,value,lama,no_pcheat,dadu;
+		int i,j,stop = 0,start,bar,isplus,value,lama,no_pcheat,dadu;
 		srand(time(NULL));
 		lama=rand()%9+1;
 		i = rand() % 5;
