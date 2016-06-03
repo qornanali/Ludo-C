@@ -163,6 +163,15 @@ int tdk_ada_pion_di_petak_awal(int noPlayer){//ngcek d petak awal ada pion gk
 	}
 }
 
+int tdk_ada_pion_di_main_track(int noPlayer){
+	Node temp=ListPlayer[noPlayer].Pion;
+	while(temp!=NULL){
+		if(temp->Position<53)return(0);
+		temp=temp->next;
+	}
+	return(1);
+}
+
 void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 	int warna,dadu,yg_gerak_pion_ke,step_to_finish,step_to_eat,step_to_be_eaten,difficulty=0,type;
 	Node awal=ListPlayer[noPlayer].Pion,temp,P;
@@ -187,7 +196,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			//while(1)printf("1");
 			step_to_finish=step_left_to_finish(noPlayer,&temp);
 			if(ListPlayer[noPlayer].Info.chance>0){
-				if(step_to_finish){			//cek jk ada pion d safezone
+				if(step_to_finish&&!ada_pion_di_home(noPlayer)&&tdk_ada_pion_di_main_track(noPlayer)){			//cek jk ada pion d safezone
 					if(step_to_finish%2==0){
 						dadu=shake_dice(2,94,47,noPlayer);
 						ListPlayer[noPlayer].Info.chance--;
