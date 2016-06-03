@@ -231,7 +231,7 @@ void menu() //modul menu
 	
 	switch(pil){
 		case 51-10:
-			gamemode();
+			mode=gamemode();
 			prepareplayer(3,4,4);
 			papan();
 			for(i = 0;i < 4;i++)
