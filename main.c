@@ -10,11 +10,23 @@ int main() {
 	menu();
 	menu_permainan();
 	count = terbesar;
-	printf("%d ",terbesar);
+	//printf("%d ",terbesar);
 	while(Play() == 1)
-		{
-			UserBermain(count%4);
-			ListPlayer[count%4].Info.skor++;
+		{	//gotoxy(0,60);printf("chance p1: %d",ListPlayer[count%4].Info.chance);
+			//gotoxy(0,60);printf("%",);
+			if(mode==6){
+				UserBermain(count%4);
+				ListPlayer[count%4].Info.skor++;
+			}else{
+				if(count%4==0){
+					UserBermain(count%4);
+					ListPlayer[count%4].Info.skor++;
+				}
+				else{
+					comp_turn(count%4);
+					ListPlayer[count%4].Info.skor++;
+				}
+			}
 			count++;
 		}
 	cek_win();
