@@ -14,7 +14,10 @@ void prepareplayer(int x, int y, int n){
 		system("cls");
 		setcolor(16*8+0);
 		gotoxy(x,y);
-		printf("Nama Pemain %d",(i+1));
+		if(i==0||mode==6)
+			printf("Nama Pemain %d",(i+1));
+		else
+			printf("Nama BOT %d",(i+1));
 		draw_shape(x,y+1,30,1,2);
 		gotoxy(x+1,y+2);
 		if(mode==6||i==0){
