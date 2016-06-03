@@ -121,7 +121,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=Lurik.h
+FileName=bot.c
 CompileCpp=0
 Folder=
 Compile=1
