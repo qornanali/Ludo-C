@@ -108,6 +108,7 @@ int ada_pion_di_home(int noPlayer);
 int tdk_ada_pion_di_petak_awal(int noPlayer);
 void comp_turn(int noPlayer);
 
+
 /* List Prototype */
 void CreateList( Node *List);
 int EmptyList( Node List);
