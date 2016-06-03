@@ -83,6 +83,30 @@ Node SearchPrevNode( Node List, int value)
 			}
 	}
 
+Node SearchNodebyPos( Node List, int value)
+	{
+		int found = 0;
+		
+		while( List != Nil && !found )
+			{
+				if(List->Position == value)
+					{
+						found = 1;
+					}
+				else
+					{
+						List = List->next;
+					}
+			}
+		if(found)
+			{
+				return (List);
+			}
+		else
+			{
+				return (Nil);
+			}
+	}
 
 void InsLast( Node *List, int value, int posisi)
 	{
