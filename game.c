@@ -318,7 +318,7 @@ void UserBermain( int noPlayer) {
 			if(P != Nil)
 				{
 					Print_Awal(noPlayer);
-					moving(noPlayer,P,dadu);
+					pionmove(noPlayer,P,dadu);
 				}
 		}
 	else if(CountNode(ListPlayer[noPlayer].Pion) > 0)
@@ -330,10 +330,51 @@ void UserBermain( int noPlayer) {
 					P = SearchNode(ListPlayer[noPlayer].Pion,type);
 				}
 			Print_Awal( noPlayer);
-			moving(noPlayer,P,dadu);
+			pionmove(noPlayer,P,dadu);
 			
 		}
 	}
+	
+
+void pionmove(int noPlayer, Node P,int dadu){
+	int bonus = 0;
+	int random = (rand() % 100) + 1
+	moving(noPlayer,P,dadu);
+	switch(P->type){
+		case 1 :
+			if(random<=20){
+				add = dadu * 2;
+			}
+			break;
+		case 2 :
+			if(random<=40){
+				
+			}
+			break;
+		case 3 :
+			if(random<=20){
+				Node Pion = ListPlayer[noPlayer].Pion;
+				while(Pion != NULL){
+					moving(noPlayer,Pion,3);
+					Pion = Pion->next;
+				}
+			}
+			break;
+		case 4 :
+			if(random<=60){
+				add = 2;
+			}
+			break;
+		case 5 :
+			break;
+		case 6 :
+			break;
+		case 7 :
+			break;
+	}
+	moving(noPlayer,P,add);
+}
+
 
 void moving(int noPlayer, Node P ,int dadu )
 	{

@@ -107,6 +107,7 @@ int step_left_to_finish(int noPlayer,Node *temp);
 int ada_pion_di_home(int noPlayer);
 int tdk_ada_pion_di_petak_awal(int noPlayer);
 void comp_turn(int noPlayer);
+void pionmove(int noPlayer, Node P,int dadu);
 
 
 /* List Prototype */
