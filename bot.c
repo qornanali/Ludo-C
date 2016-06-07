@@ -189,7 +189,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 	else if(noPlayer == 3){
 		warna = 10;
 	}
-	ClearPilihan(warna);
+	ClearPilihan(90,44,18,16,warna);
 	
 	switch(difficulty){
 		case 0:
