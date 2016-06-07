@@ -178,6 +178,10 @@ int shake_dice( int opt, int x, int y, int No_Player)
 						dadu=dadu-(no_pcheat*13+1);
 						moving(no_pcheat,temp,dadu);
 						gotoxy(0,60);printf("%d",dadu);
+					}else
+					if(start==56){
+						scanf("%d",&dadu);
+						return(dadu);
 					}
 				}
 			while(start != 32);

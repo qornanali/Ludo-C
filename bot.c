@@ -210,9 +210,9 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			}else{
 				dadu=shake_dice(1,94,47,noPlayer);
 			}
-			gotoxy(0,60);printf("chance p1: %d",ListPlayer[noPlayer].Info.chance);
-			Sleep(1000);
-			getch();
+			//gotoxy(0,60);printf("chance p1: %d",ListPlayer[noPlayer].Info.chance);
+			//Sleep(1000);
+			//getch();
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
 				keluarin_pion(noPlayer);
 			}
