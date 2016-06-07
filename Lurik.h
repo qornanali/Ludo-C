@@ -75,9 +75,12 @@ void menu_permainan();
 void helpabout(int a);
 void Print_Awal(int player);
 void drawdice(int x, int y, int dadu);
-void ClearPilihan( int warna);
+void ClearPilihan(int x, int y, int v, int h, int warna);
 int Print_Pion_Menu(int No_Player);
 Lokasi Koordinat(int No_Pion);
+void menupion(int x, int y, int warna);
+void menuskill(int x, int y, int warna);
+void menukesempatan(int x, int y, int warna);
 
 /* Data Prototype */
 void prepareplayer(int x, int y, int n);
@@ -108,6 +111,8 @@ int ada_pion_di_home(int noPlayer);
 int tdk_ada_pion_di_petak_awal(int noPlayer);
 void comp_turn(int noPlayer);
 void pionmove(int noPlayer, Node P,int dadu);
+boolean active(Node P);
+void herodoskill(int noPlayer, Node P, int * add);
 
 
 /* List Prototype */

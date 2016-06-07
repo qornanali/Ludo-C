@@ -1,5 +1,101 @@
 #include "Lurik.h"
 
+boolean active(Node P){
+	int random = (rand() % 100) + 1;
+	boolean skillactive = false;
+	int type = P->type; 
+	switch(type+1){
+		case 1 :
+			//kuda
+			if(random<=20){
+				skillactive = true;
+			}
+			break;
+		case 2 :
+			//banteng
+			if(random<=20){
+				skillactive = true;
+			}
+			break;
+		case 3 :
+			//ksatria
+			if(random<=20){
+				skillactive = true;
+			}
+			break;
+		case 4 :
+			//pemburu
+			if(random<=50){
+				skillactive = true;
+			}
+			break;
+		case 5 :
+			//pengintai
+			if(random<=50){
+				skillactive = true;
+			}
+			break;
+		case 6 :
+			//penyihir
+			do{
+				type = rand() % 7;
+			}while(type!=5);
+			if(active(type)){
+				P->type = (type+1) * 10;
+				skillactive = true;		
+			}
+			break;
+		case 7 :
+			//patih
+			if(random<=30){
+				skillactive = true;
+			}
+			break;
+	}
+	return skillactive;
+}
+
+void herodoskill(int noPlayer, Node P, int * add){
+	int type = P->type;
+	Node Pion = ListPlayer[noPlayer].Pion;
+	int pos = P->Position + 1;
+	if(type>7){
+		type = (type/10);	
+		P->type = 5;
+	}
+	switch(type){
+		case 1 :
+			//kuda
+			*add = *add * 2;
+			break;
+		case 2 :
+			//banteng
+			break;
+		case 3 :
+			//ksatria
+			while(Pion != NULL){
+				moving(noPlayer,P,3);
+				Pion = Pion->next;
+			}
+			break;
+		case 4 :
+			//pengintai
+			break;
+		case 5 :
+			//pemburu
+			*add = *add + 2;
+			break;
+		case 6 :
+			//penyihir
+			break;
+		case 7 :
+			//patih
+			pos = 6;
+			*add = *add + pos;
+			break;
+	}
+}
+
 void initialize()
 	{	
 		int i,j,a = 1;
@@ -213,8 +309,6 @@ int CekHome( int noPlayer)
 void UserBermain( int noPlayer) {
 	int pilihan,dadu = 0,i,option,type,pil,x,y,pencet,korektor=0;
 	int warna;
-	x=91;
-	y=46;
 	Node P;
 	pilihan = 1;
 	if(noPlayer == 0){
@@ -229,19 +323,13 @@ void UserBermain( int noPlayer) {
 	else if(noPlayer == 3){
 		warna = 10;
 	}
-	ClearPilihan(warna);
+	ClearPilihan(90,44,18,16,warna);
 	if (ListPlayer[noPlayer].Info.chance > 0) {
-		gotoxy(91,45);setcolor(16*warna+0);printf("Kesempatan : ");
-		gotoxy(91+2,46);printf("Biasa");
-		gotoxy(91+2,47);printf("Genap");
-		gotoxy(91+2,48);printf("Ganjil");
+		menukesempatan(91,45,warna);
 		pil=y;
 		do{
-			setcolor(16*warna+0);
-			gotoxy(x,y);printf("  Biasa");
-			gotoxy(x,y+1);printf("  Genap");
-			gotoxy(x,y+2);printf("  Ganjil");
-			gotoxy(x,pil);printf("%c",1);
+			menukesempatan(91,45,warna);
+			gotoxy(91,pil);printf("%c",1);
 			pencet=getch();
 			if(pencet==13 || pencet==32){
 				korektor=1;
@@ -258,7 +346,6 @@ void UserBermain( int noPlayer) {
 			if(pil>y+2){
 				pil=y;
 			}
-			
 	}while(korektor!=1);
 		switch(pil){
 			case 46:{
@@ -278,10 +365,9 @@ void UserBermain( int noPlayer) {
 			ListPlayer[noPlayer].Info.chance--;
 		}
 	}
-	ClearPilihan(warna);
+	ClearPilihan(90,44,18,16,warna);
 	dadu=shake_dice(pilihan,94,47,noPlayer);
 	Sleep(1000);
-	
 	if( dadu == 6)
 		{				
 			if(CountNode(ListPlayer[noPlayer].Pion) == 0)
@@ -293,10 +379,8 @@ void UserBermain( int noPlayer) {
 				}
 			else
 				{
-					ClearPilihan(warna);
-					gotoxy(91,45);setcolor(16*warna+0);printf("1. Tambah Pion");
-					gotoxy(91,46);printf("2. Pilih Pion");
-					gotoxy(91,47);printf("Pilih 1-2 : ");scanf("%d",&option);
+					menupion(91,45,warna);
+					scanf("%d",&option);
 					if( option == 1)
 						{
 							type = CekHome(noPlayer);	
@@ -306,19 +390,25 @@ void UserBermain( int noPlayer) {
 							while( P->next != Nil)
 								{
 									P = P->next;
-								}							
+								}						
 						}
 					else if(option == 2 && CountNode(ListPlayer[noPlayer].Pion) > 0)
 						{
 							type = Print_Pion_Menu(noPlayer);
 							P = SearchNode(ListPlayer[noPlayer].Pion,type);
 						}
-					
+					if(active(P->type)){
+						menuskill(91,45,warna);
+						scanf("%d",&option);
+						if(option==1){
+							herodoskill(noPlayer,P,&dadu);
+						}
+					}		
 				}
 			if(P != Nil)
 				{
 					Print_Awal(noPlayer);
-					pionmove(noPlayer,P,dadu);
+					moving(noPlayer,P,dadu);
 				}
 		}
 	else if(CountNode(ListPlayer[noPlayer].Pion) > 0)
@@ -329,52 +419,17 @@ void UserBermain( int noPlayer) {
 					type = Print_Pion_Menu(noPlayer);
 					P = SearchNode(ListPlayer[noPlayer].Pion,type);
 				}
-			Print_Awal( noPlayer);
-			pionmove(noPlayer,P,dadu);
-			
-		}
-	}
-	
-
-void pionmove(int noPlayer, Node P,int dadu){
-	int bonus = 0;
-	int random = (rand() % 100) + 1
-	moving(noPlayer,P,dadu);
-	switch(P->type){
-		case 1 :
-			if(random<=20){
-				add = dadu * 2;
-			}
-			break;
-		case 2 :
-			if(random<=40){
-				
-			}
-			break;
-		case 3 :
-			if(random<=20){
-				Node Pion = ListPlayer[noPlayer].Pion;
-				while(Pion != NULL){
-					moving(noPlayer,Pion,3);
-					Pion = Pion->next;
+			Print_Awal(noPlayer);
+			if(active(P->type)){
+				menuskill(91,45,warna);
+				scanf("%d",&option);
+				if(option==1){
+					herodoskill(noPlayer,P,&dadu);
 				}
 			}
-			break;
-		case 4 :
-			if(random<=60){
-				add = 2;
-			}
-			break;
-		case 5 :
-			break;
-		case 6 :
-			break;
-		case 7 :
-			break;
+			moving(noPlayer,P,dadu);
+		}
 	}
-	moving(noPlayer,P,add);
-}
-
 
 void moving(int noPlayer, Node P ,int dadu )
 	{
