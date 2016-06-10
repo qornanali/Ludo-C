@@ -40,7 +40,7 @@ Node SearchNodeToEat( Node List, int value)
 						List = List->next;
 					}
 			}
-		if(found)
+		if(found&&List->Position<=52)
 			{
 				return (List);
 			}
