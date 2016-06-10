@@ -13,7 +13,7 @@ boolean active(Node P){
 			break;
 		case 2 :
 			//banteng
-			if(random<=30){
+			if(random<=20){
 				skillactive = true;
 			}
 			break;
@@ -59,17 +59,43 @@ void herodoskill(int noPlayer, Node P, int * add){
 	int type = P->type;
 	Node Pion = ListPlayer[noPlayer].Pion;
 	int pos = P->Position + 1;
+	int belok;
 	if(type>7){
 		type = (type/10);
 		P->type = 5;
 	}
 	switch(type){
-		case 1 :
+		case 2 :
 			//kuda
 			*add = *add * 2;
 			break;
-		case 2 :
+		case 1 :
 			//banteng
+			switch(noPlayer+1){
+				case 1 :
+					belok = 52;
+					break;
+				case 2 :
+					belok = 13;
+					break;
+				case 3 :
+					belok = 26;
+					break;
+				case 4 :
+					belok = 39;
+					break;
+			}
+			if(pos != belok){
+				Node Front = NULL;
+				int hisnoplayer;
+				while(Front == NULL && pos < 12){
+					Front = cekfront(noPlayer,pos,&hisnoplayer);
+					pos++;
+				}
+				if(Front != NULL){
+					*add = pos;	
+				}
+			}
 			break;
 		case 3 :
 			//ksatria
