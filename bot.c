@@ -1,5 +1,163 @@
 #include"Lurik.h"
 
+Node SearchNodeToFlee( Node List, int value);
+Node SearchNodeToEat( Node List, int value);
+void keluarin_pion(int noPlayer);
+int petak_awal_player(int noPlayer);
+int step_left_to_be_eaten(int noPlayer,Node *temp);
+int finish_player(int noPlayer);
+int step_left_to_finish(int noPlayer,Node *temp);
+int tdk_ada_pion_di_petak_awal(int noPlayer);
+void comp_turn(int noPlayer);
+int suicide(int noPlayer,int pos);
+
+void comp_turn(int noPlayer){//procedure gerak() blm d panggil
+	int warna,dadu,yg_gerak_pion_ke,step_to_finish,step_to_eat,step_to_be_eaten,difficulty=2,type;
+	Node awal=ListPlayer[noPlayer].Pion,temp,P;
+	int safe_zone=finish_player(noPlayer)-5;Lokasi Posisi;
+	
+	if(noPlayer == 0){
+		warna = 9;
+	}
+	else if(noPlayer == 1){
+		warna = 12;
+	}
+	else if(noPlayer == 2){
+		warna = 14;
+	}
+	else if(noPlayer == 3){
+		warna = 10;
+	}
+	ClearPilihan(warna);
+	
+	switch(difficulty){
+		case 0:
+			step_to_finish=step_left_to_finish(noPlayer,&temp);
+			if(ListPlayer[noPlayer].Info.chance>0){
+				if(step_to_finish&&!ada_pion_di_home(noPlayer)&&tdk_ada_pion_di_main_track(noPlayer)){			//cek jk ada pion d safezone
+					if(step_to_finish%2==0){
+						dadu=shake_dice(2,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}else{
+						dadu=shake_dice(3,94,47,noPlayer);//shake dice 3
+						ListPlayer[noPlayer].Info.chance--;
+					}
+				}else{
+					dadu=shake_dice(1,94,47,noPlayer);
+				}
+			}else{
+				dadu=shake_dice(1,94,47,noPlayer);
+			}
+			gotoxy(0,60);printf("chance p%d: %d",noPlayer,ListPlayer[noPlayer].Info.chance);
+			Sleep(1000);
+			getch();
+			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
+				keluarin_pion(noPlayer);
+			}
+				else//pion d home
+			if(dadu==step_to_finish){		//cek jk ada pion d safezone	
+				moving(noPlayer,temp,dadu);
+			}else{
+				if(CountNode(ListPlayer[noPlayer].Pion)!=0)
+					moving(noPlayer,awal,dadu);
+			}
+			if(dadu==6)comp_turn(noPlayer);
+			break;
+		case 1:
+			step_to_finish=step_left_to_finish(noPlayer,&temp);
+			step_to_eat=step_left_to_eat(noPlayer,&temp);
+			if(ListPlayer[noPlayer].Info.chance>0){
+				if(step_to_eat){
+					if(step_to_eat%2==0){
+						dadu=shake_dice(2,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}else{
+						dadu=shake_dice(3,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}
+				}else{
+					dadu=shake_dice(1,94,47,noPlayer);
+				}
+			}else{
+				dadu=shake_dice(1,94,47,noPlayer);
+			}
+			gotoxy(0,60);printf("chance p%d: %d, dadu %d",noPlayer,ListPlayer[noPlayer].Info.chance,dadu);
+			Sleep(1000);
+			getch();
+			if(dadu==step_to_eat){
+				moving(noPlayer,temp,dadu);
+			}else
+			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
+				keluarin_pion(noPlayer);
+			}else
+			if(dadu==step_to_finish){			//cek jk ada pion d safezone
+				int step_to_finish=step_left_to_finish(noPlayer,&temp);	
+				moving(noPlayer,temp,dadu);
+			}else{
+				if(CountNode(ListPlayer[noPlayer].Pion)!=0)
+					moving(noPlayer,awal,dadu);
+			}
+			if(dadu==6)comp_turn(noPlayer);
+			break;
+		case 2:
+			step_to_finish=step_left_to_finish(noPlayer,&temp);
+			step_to_eat=step_left_to_eat(noPlayer,&temp);
+			step_to_be_eaten=step_left_to_be_eaten(noPlayer,&temp);
+			if(ListPlayer[noPlayer].Info.chance>0){
+				if(step_to_be_eaten){
+					dadu=shake_dice(1,94,47,noPlayer);
+				}else
+				if(step_to_eat){
+					if(step_to_eat%2==0){
+						dadu=shake_dice(2,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}else{
+						dadu=shake_dice(3,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}
+				}else{
+					dadu=shake_dice(1,94,47,noPlayer);
+				}
+			}else{
+				dadu=shake_dice(1,94,47,noPlayer);
+			}
+			gotoxy(0,60);printf("chance p%d: %d",noPlayer,ListPlayer[noPlayer].Info.chance);
+			Sleep(1000);
+			//getch();
+			if(step_to_be_eaten){
+				getch();
+				moving(noPlayer,temp,dadu);
+				//while(1)printf("U");
+			}else
+			if(dadu==step_to_eat){
+				int step_to_eat=step_left_to_eat(noPlayer,&temp);
+				moving(noPlayer,temp,dadu);
+			}else
+			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){//ada pion d home blm fix
+				keluarin_pion(noPlayer);
+			}
+				else//pion d home
+			if(dadu==step_to_finish){			//cek jk ada pion d safezone
+				int step_to_finish=step_left_to_finish(noPlayer,&temp);	
+				moving(noPlayer,temp,dadu);
+			}else{
+				if(CountNode(ListPlayer[noPlayer].Pion)!=0)
+					moving(noPlayer,awal,dadu);
+			}
+			if(dadu==6)comp_turn(noPlayer);
+			break;
+	}
+}
+
+int suicide(int noPlayer,int pos){
+	Node temp=ListPlayer[noPlayer].Pion;
+	while(temp->next!=NULL){
+		if(temp->Position==pos)return(1);
+		temp=temp->next;
+	}
+	return(0);
+};
+
 Node SearchNodeToFlee( Node List, int value)
 	{
 		boolean found = false;
@@ -40,7 +198,7 @@ Node SearchNodeToEat( Node List, int value)
 						List = List->next;
 					}
 			}
-		if(found&&List->Position<=52)
+		if(found&&Position-value<53)
 			{
 				return (List);
 			}
@@ -170,161 +328,4 @@ int tdk_ada_pion_di_main_track(int noPlayer){
 		temp=temp->next;
 	}
 	return(1);
-}
-
-void comp_turn(int noPlayer){//procedure gerak() blm d panggil
-	int warna,dadu,yg_gerak_pion_ke,step_to_finish,step_to_eat,step_to_be_eaten,difficulty=0,type;
-	Node awal=ListPlayer[noPlayer].Pion,temp,P;
-	int safe_zone=finish_player(noPlayer)-5;Lokasi Posisi;
-	
-	if(noPlayer == 0){
-		warna = 9;
-	}
-	else if(noPlayer == 1){
-		warna = 12;
-	}
-	else if(noPlayer == 2){
-		warna = 14;
-	}
-	else if(noPlayer == 3){
-		warna = 10;
-	}
-	ClearPilihan(90,44,18,16,warna);
-	
-	switch(difficulty){
-		case 0:
-			//while(1)printf("1");
-			step_to_finish=step_left_to_finish(noPlayer,&temp);
-			if(ListPlayer[noPlayer].Info.chance>0){
-				if(step_to_finish&&!ada_pion_di_home(noPlayer)&&tdk_ada_pion_di_main_track(noPlayer)){			//cek jk ada pion d safezone
-					if(step_to_finish%2==0){
-						dadu=shake_dice(2,94,47,noPlayer);
-						ListPlayer[noPlayer].Info.chance--;
-					}else{
-						dadu=shake_dice(3,94,47,noPlayer);//shake dice 3
-						ListPlayer[noPlayer].Info.chance--;
-					}
-				}else{
-					dadu=shake_dice(1,94,47,noPlayer);
-				}
-			}else{
-				dadu=shake_dice(1,94,47,noPlayer);
-			}
-			//gotoxy(0,60);printf("chance p1: %d",ListPlayer[noPlayer].Info.chance);
-			//Sleep(1000);
-			//getch();
-			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
-				keluarin_pion(noPlayer);
-			}
-				else//pion d home
-			if(dadu==step_to_finish){		//cek jk ada pion d safezone	
-				moving(noPlayer,temp,dadu);
-			}else{
-				if(CountNode(ListPlayer[noPlayer].Pion)!=0)
-					moving(noPlayer,awal,dadu);
-			}
-			if(dadu==6)comp_turn(noPlayer);
-			break;
-		case 1:
-			step_to_finish=step_left_to_finish(noPlayer,&temp);
-			step_to_eat=step_left_to_eat(noPlayer,&temp);
-			if(ListPlayer[noPlayer].Info.chance>0){
-				if(step_to_eat){
-					if(step_to_eat%2==0){
-						dadu=shake_dice(2,94,47,noPlayer);
-						ListPlayer[noPlayer].Info.chance--;
-					}else{
-						dadu=shake_dice(1,94,47,noPlayer);
-						ListPlayer[noPlayer].Info.chance--;
-					}
-				}else{
-					dadu=shake_dice(1,94,47,noPlayer);
-			}
-			}else{
-				dadu=shake_dice(1,94,47,noPlayer);
-			}
-			
-			Sleep(1000);
-			
-			if(dadu==step_to_eat){
-				moving(noPlayer,temp,dadu);
-			}else
-			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&CekHome(noPlayer)){
-				type = CekHome(noPlayer);	
-							InsLast(&ListPlayer[noPlayer].Pion,type,noPlayer*13);
-							home[noPlayer][type] = false;
-							P = ListPlayer[noPlayer].Pion;
-							while( P->next != Nil)
-								{
-									P = P->next;
-								}
-				 if(P != Nil)
-				{
-					Print_Awal(noPlayer);
-					moving(noPlayer,P,dadu);
-				}
-			}else
-			if(dadu==step_to_finish){			//cek jk ada pion d safezone
-				int step_to_finish=step_left_to_finish(noPlayer,&temp);	
-				moving(noPlayer,temp,dadu);
-			}else
-				if(CountNode(temp)!=0)
-					moving(noPlayer,awal,dadu);
-			break;
-		case 2:
-			step_to_finish=step_left_to_finish(noPlayer,&temp);
-			step_to_eat=step_left_to_eat(noPlayer,&temp);
-			step_to_be_eaten=step_left_to_be_eaten(noPlayer,&temp);
-			if(ListPlayer[noPlayer].Info.chance>0){
-				if(step_to_be_eaten){
-					shake_dice(3,94,47,noPlayer);
-				}else
-				if(step_to_eat){
-					if(step_to_eat%2==0){
-						dadu=shake_dice(2,94,47,noPlayer);
-						ListPlayer[noPlayer].Info.chance--;
-					}else{
-						dadu=shake_dice(1,94,47,noPlayer);
-						ListPlayer[noPlayer].Info.chance--;
-					}
-				}else{
-					dadu=shake_dice(1,94,47,noPlayer);
-			}
-			}else{
-				dadu=shake_dice(1,94,47,noPlayer);
-			}
-			
-			Sleep(1000);
-				
-			if(step_to_be_eaten){
-				moving(noPlayer,temp,dadu);
-			}else
-			if(dadu==step_to_eat){
-				int step_to_eat=step_left_to_eat(noPlayer,&temp);
-				moving(noPlayer,temp,dadu);
-			}else
-			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&CekHome(noPlayer)){//ada pion d home blm fix
-				type = CekHome(noPlayer);	
-							InsLast(&ListPlayer[noPlayer].Pion,type,noPlayer*13);
-							home[noPlayer][type] = false;
-							P = ListPlayer[noPlayer].Pion;
-							while( P->next != Nil)
-								{
-									P = P->next;
-								}
-				if(P != Nil)
-				{
-					Print_Awal(noPlayer);
-					moving(noPlayer,P,dadu);
-				}
-				//comp_turn(noPlayer);
-			}
-				else//pion d home
-			if(dadu==step_to_finish){			//cek jk ada pion d safezone
-				int step_to_finish=step_left_to_finish(noPlayer,&temp);	
-				moving(noPlayer,temp,dadu);
-			}else
-				if(CountNode(temp)!=0)moving(noPlayer,awal,dadu);
-			break;
-	}
 }
