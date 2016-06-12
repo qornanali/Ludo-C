@@ -40,7 +40,7 @@ Node SearchNodeToEat( Node List, int value)
 						List = List->next;
 					}
 			}
-		if(found&&List->Position<=52)
+		if(found)
 			{
 				return (List);
 			}
@@ -58,7 +58,7 @@ void keluarin_pion(int noPlayer){//unclean
 	temp->Position = 13*noPlayer;
 	Posisi=posisi_koordinat(temp->Position);
 	moving(noPlayer,temp,1);
-	home[noPlayer][type_pion] = false;
+	setHome(type_pion,false,noPlayer);
 	Print_Awal(noPlayer);
 }
 
@@ -189,7 +189,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 	else if(noPlayer == 3){
 		warna = 10;
 	}
-	ClearPilihan(90,44,18,16,warna);
+	ClearPilihan(warna);
 	
 	switch(difficulty){
 		case 0:
@@ -210,9 +210,9 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			}else{
 				dadu=shake_dice(1,94,47,noPlayer);
 			}
-			//gotoxy(0,60);printf("chance p1: %d",ListPlayer[noPlayer].Info.chance);
-			//Sleep(1000);
-			//getch();
+			gotoxy(0,60);printf("chance p1: %d",ListPlayer[noPlayer].Info.chance);
+			Sleep(1000);
+			getch();
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
 				keluarin_pion(noPlayer);
 			}
@@ -252,7 +252,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&CekHome(noPlayer)){
 				type = CekHome(noPlayer);	
 							InsLast(&ListPlayer[noPlayer].Pion,type,noPlayer*13);
-							home[noPlayer][type] = false;
+							setHome(type,false,noPlayer);
 							P = ListPlayer[noPlayer].Pion;
 							while( P->next != Nil)
 								{
@@ -306,7 +306,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&CekHome(noPlayer)){//ada pion d home blm fix
 				type = CekHome(noPlayer);	
 							InsLast(&ListPlayer[noPlayer].Pion,type,noPlayer*13);
-							home[noPlayer][type] = false;
+							setHome(type,false,noPlayer);
 							P = ListPlayer[noPlayer].Pion;
 							while( P->next != Nil)
 								{

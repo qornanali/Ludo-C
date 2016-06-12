@@ -1,129 +1,7 @@
 #include "Lurik.h"
 
-boolean active(Node P){
-	int random = (rand() % 100) + 1;
-	boolean skillactive = false;
-	int type = P->type;
-	switch(type+1){
-		case 1 :
-			//kuda
-			if(random<=20){
-				skillactive = true;
-			}
-			break;
-		case 2 :
-			//banteng
-			if(random<=20){
-				skillactive = true;
-			}
-			break;
-		case 3 :
-			//ksatria
-			if(random<=20){
-				skillactive = true;
-			}
-			break;
-		case 4 :
-			//pemburu
-			if(random<=50){
-				skillactive = true;
-			}
-			break;
-		case 5 :
-			//pengintai
-			if(random<=50){
-				skillactive = true;
-			}
-			break;
-		case 6 :
-			//penyihir
-			do{
-				type = rand() % 7;
-			}while(type!=5);
-			if(active(type)){
-				P->type = (type+1) * 10;
-				skillactive = true;
-			}
-			break;
-		case 7 :
-			//patih
-			if(random<=30){
-				skillactive = true;
-			}
-			break;
-	}
-	return skillactive;
-}
-
-void herodoskill(int noPlayer, Node P, int * add){
-	int type = P->type;
-	Node Pion = ListPlayer[noPlayer].Pion;
-	int pos = P->Position + 1;
-	int belok;
-	if(type>7){
-		type = (type/10);
-		P->type = 5;
-	}
-	switch(type){
-		case 2 :
-			//kuda
-			*add = *add * 2;
-			break;
-		case 1 :
-			//banteng
-			switch(noPlayer+1){
-				case 1 :
-					belok = 52;
-					break;
-				case 2 :
-					belok = 13;
-					break;
-				case 3 :
-					belok = 26;
-					break;
-				case 4 :
-					belok = 39;
-					break;
-			}
-			if(pos != belok){
-				Node Front = NULL;
-				int hisnoplayer;
-				while(Front == NULL && pos < 12){
-					Front = cekfront(noPlayer,pos,&hisnoplayer);
-					pos++;
-				}
-				if(Front != NULL){
-					*add = pos;	
-				}
-			}
-			break;
-		case 3 :
-			//ksatria
-			while(Pion != NULL){
-				moving(noPlayer,P,3);
-				Pion = Pion->next;
-			}
-			break;
-		case 4 :
-			//pengintai
-			break;
-		case 5 :
-			//pemburu
-			*add = *add + 2;
-			break;
-		case 6 :
-			//penyihir
-			break;
-		case 7 :
-			//patih
-			pos = 6;
-			*add = *add + pos;
-			break;
-	}
-}
-
 void initialize()
-	{
+	{	
 		int i,j,a = 1;
 		i = 0;
 		while(i < 6)
@@ -145,15 +23,16 @@ void initialize()
 				a = Dice_Pattern[i][j-1];
 				i++;
 			}
-
+		
 		i = 0;
 		while(i < 4)
 			{
 				j = 0;
 				while(j < 4)
 					{
-						home[i][j] = true;
-						j++;
+						home[i][j].pion = true;
+						home[i][j].type = j;
+ 						j++;
 					}
 				ListPlayer[i].Info.chance = 3;
 				ListPlayer[i].Info.finish = 0;
@@ -173,7 +52,7 @@ int odd_even( int opt, int value)
 			{
 				value = value * 2;
 			}
-
+		
 		return value;
 	}
 
@@ -204,10 +83,6 @@ int shake_dice( int opt, int x, int y, int No_Player)
 						dadu=dadu-(no_pcheat*13+1);
 						moving(no_pcheat,temp,dadu);
 						gotoxy(0,60);printf("%d",dadu);
-					}else
-					if(start==56){
-						scanf("%d",&dadu);
-						return(dadu);
 					}
 				}
 			while(start != 32);
@@ -223,16 +98,16 @@ int shake_dice( int opt, int x, int y, int No_Player)
 					{
 						value = odd_even(opt, value);
 					}
-				drawdice(x, y, value);
+				drawdice(x, y, value);				
 				gotoxy(x-1+(bar%10),y+6);setcolor(16*2);printf(" ");setcolor(8);setcolor(16*8+0);
-
+					
 				if(bar%10==9){
 					gotoxy(x-1,y+6);setcolor(16*8+0);printf("          ");
 				}
 				if(mode==6||No_Player==0){
 					gotoxy(x-1,y+7);setcolor(16*8+0);		printf("Tekan Spasi");
 					gotoxy(x-1,y+8);		printf("untuk Stop ");setcolor(16*8+0);
-					if (kbhit())
+					if (kbhit()) 
 						{
 							stop=getch();
 							return value;
@@ -324,7 +199,7 @@ int CekHome( int noPlayer)
 		int i=0;
 		while(i < 4)
 			{
-				if(home[noPlayer][i] == true)
+				if(home[noPlayer][i].pion == true)
 					{
 						break;
 					}
@@ -333,12 +208,16 @@ int CekHome( int noPlayer)
 						i++;
 					}
 			}
-		return i;
+		return home[noPlayer][i].type;
 	}
 
 void UserBermain( int noPlayer) {
 	int pilihan,dadu = 0,i,option,type,pil,x,y,pencet,korektor=0;
-	int warna;
+	int warna,Enemy = -1;
+	Node Pion = Nil;
+	Lokasi Posisi;
+	x=91;
+	y=46;
 	Node P;
 	pilihan = 1;
 	if(noPlayer == 0){
@@ -353,13 +232,19 @@ void UserBermain( int noPlayer) {
 	else if(noPlayer == 3){
 		warna = 10;
 	}
-	ClearPilihan(90,44,18,16,warna);
+	ClearPilihan(warna);
 	if (ListPlayer[noPlayer].Info.chance > 0) {
-		menukesempatan(91,45,warna);
+		gotoxy(91,45);setcolor(16*warna+0);printf("Kesempatan : ");
+		gotoxy(91+2,46);printf("Biasa");
+		gotoxy(91+2,47);printf("Genap");
+		gotoxy(91+2,48);printf("Ganjil");
 		pil=y;
 		do{
-			menukesempatan(91,45,warna);
-			gotoxy(91,pil);printf("%c",1);
+			setcolor(16*warna+0);
+			gotoxy(x,y);printf("  Biasa");
+			gotoxy(x,y+1);printf("  Genap");
+			gotoxy(x,y+2);printf("  Ganjil");
+			gotoxy(x,pil);printf("%c",1);
 			pencet=getch();
 			if(pencet==13 || pencet==32){
 				korektor=1;
@@ -376,6 +261,7 @@ void UserBermain( int noPlayer) {
 			if(pil>y+2){
 				pil=y;
 			}
+			
 	}while(korektor!=1);
 		switch(pil){
 			case 46:{
@@ -395,70 +281,233 @@ void UserBermain( int noPlayer) {
 			ListPlayer[noPlayer].Info.chance--;
 		}
 	}
-	ClearPilihan(90,44,18,16,warna);
+	ClearPilihan(warna);
 	dadu=shake_dice(pilihan,94,47,noPlayer);
 	Sleep(1000);
+	
 	if( dadu == 6)
 		{
 			if(CountNode(ListPlayer[noPlayer].Pion) == 0)
 				{
 					type = CekHome(noPlayer);
 					InsLast(&ListPlayer[noPlayer].Pion,type,noPlayer*13);
-					home[noPlayer][type] = false;
+					setHome(type,false,noPlayer);
 					P = ListPlayer[noPlayer].Pion;
+					Posisi = posisi_koordinat(P->Position);
+					Pion = cekfront(noPlayer,P->Position,&Enemy);
+					if(Pion != Nil)
+						{
+							type = DelP(&ListPlayer[Enemy].Pion,Pion->type);
+							setHome(type, true, Enemy);
+						}
+					P->before = P->Position;
+					gerak_pion(noPlayer,P->type,Posisi.x*6,Posisi.y*4);
+					Print_Awal( noPlayer);
+					P->Position++;
 				}
 			else
 				{
-					menupion(91,45,warna);
-					scanf("%d",&option);
+					ClearPilihan(warna);
+					gotoxy(91,45);setcolor(16*warna+0);printf("1. Tambah Pion");
+					gotoxy(91,46);printf("2. Pilih Pion");
+					gotoxy(91,47);printf("Pilih 1-2 : ");scanf("%d",&option);
 					if( option == 1)
 						{
-							type = CekHome(noPlayer);
+							type = CekHome(noPlayer);	
 							InsLast(&ListPlayer[noPlayer].Pion,type,noPlayer*13);
-							home[noPlayer][type] = false;
+							setHome(type,false,noPlayer);
 							P = ListPlayer[noPlayer].Pion;
 							while( P->next != Nil)
 								{
 									P = P->next;
 								}
+							Posisi = posisi_koordinat(P->Position);
+							P->before = P->Position;
+							gerak_pion(noPlayer,P->type,Posisi.x*6,Posisi.y*4);
+							Pion = cekfront(noPlayer,P->Position,&Enemy);
+							if(Pion != Nil)
+								{
+									type = DelP(&ListPlayer[Enemy].Pion,Pion->type);
+									setHome(type, true, Enemy);
+								}
+							Print_Awal( noPlayer);
+							P->Position++;
 						}
 					else if(option == 2 && CountNode(ListPlayer[noPlayer].Pion) > 0)
 						{
 							type = Print_Pion_Menu(noPlayer);
 							P = SearchNode(ListPlayer[noPlayer].Pion,type);
+							if(active(P) == true){
+								printf("aktif");
+								getch();
+								ClearPilihan(warna);
+								gotoxy(93,45);setcolor(16*warna+0);	printf("Gunakan Skill ??");
+								gotoxy(93,47);setcolor(16*warna+0);	printf("[Y/N]");
+								gotoxy(91,48);option = getch();
+								if(option == 121 || option == 89){
+									getch();
+									herodoskill(noPlayer,P,&dadu);
+								}
+							}
+							moving(noPlayer,P,dadu);
 						}
-					if(active(P->type)){
-						menuskill(91,45,warna);
-						scanf("%d",&option);
-						if(option==1){
-							herodoskill(noPlayer,P,&dadu);
-						}
-					}
-				}
-			if(P != Nil)
-				{
-					Print_Awal(noPlayer);
-					moving(noPlayer,P,dadu);
+					
 				}
 		}
 	else if(CountNode(ListPlayer[noPlayer].Pion) > 0)
 		{
-			P = ListPlayer[noPlayer].Pion;
-			if(CountNode(ListPlayer[noPlayer].Pion) > 1)
-				{
-					type = Print_Pion_Menu(noPlayer);
-					P = SearchNode(ListPlayer[noPlayer].Pion,type);
-				}
-			Print_Awal(noPlayer);
-			if(active(P->type)){
-				menuskill(91,45,warna);
-				scanf("%d",&option);
-				if(option==1){
+			type = Print_Pion_Menu(noPlayer);
+			P = SearchNode(ListPlayer[noPlayer].Pion,type);
+			if(active(P) == true){
+				printf("aktif");
+				getch();
+				ClearPilihan(warna);
+				gotoxy(93,45);setcolor(16*warna+0);	printf("Gunakan Skill ??");
+				gotoxy(93,47);setcolor(16*warna+0);	printf("[Y/N]");
+				gotoxy(91,48);option = getch();
+				if(option == 121 || option == 89){
 					herodoskill(noPlayer,P,&dadu);
 				}
 			}
 			moving(noPlayer,P,dadu);
 		}
+	}
+	
+bool active(Node P){
+	int random = (rand() % 100) + 1;
+	printf("%d %d",random,P->type);
+	getch();
+	bool skillactive = false;
+	int type = P->type;
+	switch(type+1){
+		case 1 :
+			//kuda
+			if(random<=20){
+				skillactive = true;
+			}
+			break;
+		case 2 :
+			//banteng
+			if(random<=20){
+				skillactive = true;
+			}
+			break;
+		case 3 :
+			//ksatria
+			if(random<=20){
+				skillactive = true;
+			}
+			break;
+		case 4 :
+			//pemburu
+			if(random<=50){
+				skillactive = true;
+			}
+			break;
+		case 5 :
+			//pengintai
+			if(random<=50){
+				skillactive = true;
+			}
+			break;
+		case 6 :
+			//penyihir
+			do{
+				type = rand() % 7;
+			}while(type!=5);
+			if(active(P) == true){
+				P->type = (type+1) * 10;
+				skillactive = true;
+			}
+			break;
+		case 7 :
+			//patih
+			if(random<=30){
+				skillactive = true;
+			}
+			break;
+	}
+	return skillactive;
+}
+
+void herodoskill(int noPlayer, Node P, int *add){
+	int type = P->type;
+	Node Pion = ListPlayer[noPlayer].Pion;
+	int pos = P->Position + 1;
+	int belok;
+	if(type>7){
+		type = (type/10);
+		P->type = 5;
+	}
+	switch(type+1){
+		case 1 :
+			//kuda
+			*add = *add * 2;
+			break;
+		case 2 :
+			//banteng
+			switch(noPlayer+1){
+				case 1 :
+					belok = 52;
+					break;
+				case 2 :
+					belok = 13;
+					break;
+				case 3 :
+					belok = 26;
+					break;
+				case 4 :
+					belok = 39;
+					break;
+			}
+			if(pos != belok){
+				Node Front = NULL;
+				int hisnoplayer;
+				while(Front == NULL && pos < 12){
+					Front = cekfront(noPlayer,pos,&hisnoplayer);
+					pos++;
+				}
+				if(Front != NULL){
+					*add = pos;	
+				}
+			}
+			break;
+		case 3 :
+			//ksatria
+			while(Pion != NULL){
+				moving(noPlayer,P,3);
+				Pion = Pion->next;
+			}
+			break;
+		case 4 :
+			//pengintai
+			break;
+		case 5 :
+			//pemburu
+			*add = *add + 2;
+			break;
+		case 6 :
+			//penyihir
+			break;
+		case 7 :
+			//patih
+			pos = 6;
+			*add = *add + pos;
+			break;
+	}
+}
+
+void setHome(int type, int state, int noPlayer)
+	{
+		int i;
+		for(i = 0; i < 4; i++)
+			{
+				if( home[noPlayer][i].type == type)
+					{
+						home[noPlayer][i].pion 	= state;
+						break;
+					}
+			}
 	}
 
 void moving(int noPlayer, Node P ,int dadu )
@@ -466,8 +515,9 @@ void moving(int noPlayer, Node P ,int dadu )
 	Lokasi Posisi;
 	Lokasi hapus;
 	Node Pion = Nil,Temp = Nil;
-	int pindah, awal, akhir,Enemy = -1,type;
+	int pindah, awal, akhir,Enemy = -1,type, EnemyTemp = -1;
 	int i,mundur = false;
+	int EnemyStep = 0;
 	i = 0;
 	switch(noPlayer)
 		{
@@ -493,49 +543,47 @@ void moving(int noPlayer, Node P ,int dadu )
 				break;
 		}
 	while(i < dadu)
-		{
+		{	
 			//pengecekan jika ada pion di depannya
-
+			
+		 	hapus = posisi_koordinat(P->before);
+			clear_kotak(hapus.x*6,hapus.y*4);
+			if(Temp != Nil && Temp->Position == P->Position)
+				{
+					Posisi = posisi_koordinat(Temp->before);
+					gerak_pion(EnemyTemp,Temp->type,Posisi.x*6,Posisi.y*4);
+				}
+			
 			Pion = cekfront(noPlayer,P->Position,&Enemy);
-
-			if( Pion != Nil)
+			if(Pion != Nil)
 				{
 					Temp = Pion;
-					hapus = posisi_koordinat(P->before);
-					clear_kotak(hapus.x*6,hapus.y*4);
+					EnemyTemp = Enemy;
 				}
-			else
-				{
-					if(Temp != Nil)
-						{
-							Posisi = posisi_koordinat(Temp->before);
-							gerak_pion(Enemy,Temp->type,Posisi.x*6,Posisi.y*4);
-							Temp = Nil;
-						}
-					else
-						{
-							hapus = posisi_koordinat(P->before);
-							clear_kotak(hapus.x*6,hapus.y*4);
-						}
-				}
+			
 			Posisi = posisi_koordinat(P->Position);
 			gerak_pion(noPlayer,P->type,Posisi.x*6,Posisi.y*4);
+			
 			Sleep(100);
-			if(noPlayer > 0 && P->Position == 51)
-				{
-					P->Position = 0;
+			
+		 	P->before = P->Position;
+		 	
+		 	if( noPlayer > 0 && P->Position == 51)
+		 		{
+		 			P->Position = 0;
 					P->before = 51;
 				}
 			else
 				{
-					if(P->Position == akhir) {
-							mundur = true;
-				 	}
-				 	P->before = P->Position;
-				 	if(ListPlayer[noPlayer].Pion->Position == pindah) {
-
-						ListPlayer[noPlayer].Pion->Position = awal;
-					}
+		 			if(P->Position == akhir)
+						{
+							mundur = true;	
+						}
+				 	if(ListPlayer[noPlayer].Pion->Position == pindah)
+					 	{
+							ListPlayer[noPlayer].Pion->Position = awal;
+						}
+					
 					if( mundur == true)
 						{
 							P->Position--;
@@ -547,22 +595,23 @@ void moving(int noPlayer, Node P ,int dadu )
 				}
 			i++;
 		}
-		if(Temp != Nil)
-			{
-				if(P->Position == Temp->Position)
-					{
-						type = DelP(&ListPlayer[noPlayer].Pion,Temp->type);
-						home[Enemy][type] = true;
-						Print_Awal(Enemy);
-					}
-			}
-		mundur = false;
-		if (P->Position == akhir) {
-			ListPlayer[noPlayer].Info.finish++;
-			type = DelP(&ListPlayer[noPlayer].Pion,P->type);
-			home[Enemy][type] = true;
-			Print_Awal(noPlayer);
+	if(Temp != Nil)
+		{
+			if(P->before == Temp->before)
+				{
+					type = DelP(&ListPlayer[Enemy].Pion,Temp->type);
+					setHome(type, true, Enemy);
+					Print_Awal(Enemy);
+				}
 		}
+	mundur = false;
+	if (P->before == akhir) {
+		ListPlayer[noPlayer].Info.finish++;
+		type = DelP(&ListPlayer[noPlayer].Pion,P->type);
+		setHome(type, true, noPlayer);
+		Print_Awal(noPlayer);
+	}
+			
 	}
 
 int Play()
@@ -577,7 +626,7 @@ int Play()
 				return 0;
 			}
 	}
-
+	
 Node cekfront(int mynoplayer, int posisi, int *hisnoplayer){
 	int belok,depan,posisidepan;
 	switch(mynoplayer){
@@ -586,7 +635,7 @@ Node cekfront(int mynoplayer, int posisi, int *hisnoplayer){
 			depan = 52;
 			break;
 		case 1 :
-			belok = 12;
+			belok = 12; 
 			depan = 58;
 			break;
 		case 2 :
@@ -605,7 +654,7 @@ Node cekfront(int mynoplayer, int posisi, int *hisnoplayer){
 		if(posisi==51){
 			posisidepan = 0;
 		}else{
-			posisidepan++;
+			posisidepan++;	
 		}
 	int i,j,found;
 	found = false;
@@ -613,7 +662,7 @@ Node cekfront(int mynoplayer, int posisi, int *hisnoplayer){
 	Node Pion;
 	while( i < 4 && found == false)
 		{
-
+			
 			Pion = ListPlayer[i].Pion;
 			if(Pion != Nil)
 				{

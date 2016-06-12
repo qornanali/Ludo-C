@@ -32,20 +32,21 @@ void Dealokasi( Node P)
 
 Node SearchNode( Node List, int value)
 	{
-		boolean found = false;
-		
-		while( List != Nil && !found )
+		int found = false;
+		Node P;
+		while( List != Nil && found == false )
 			{
 				if(List->type == value)
 					{
 						found = true;
+						break;
 					}
 				else
 					{
-						List = List->next;
+						List = List->next;	
 					}
 			}
-		if(found)
+		if(found == true)
 			{
 				return (List);
 			}
@@ -60,19 +61,18 @@ Node SearchPrevNode( Node List, int value)
 		Node Prev;
 		Prev = Nil;
 		int found = false;
-		if(List != Nil)
+		while( List != Nil && found == false )
 			{
-				while( List != Nil && found == false )
+				if(List->type == value)
 					{
-						if(List->type == value)
-							{
-								found = true;
-							}
+						found = true;
+					}
+				else
+					{
 						Prev = List;
 						List = List->next;
 					}
 			}
-		
 		if(found == true)
 			{
 				return (Prev);
@@ -151,19 +151,27 @@ int DelP( Node *List, int value)
 	{
 		int type;
 		Node Prev,P;
-		Prev = SearchPrevNode( *List, value);
-		if(Prev == *List)
+		if(*List != Nil)
 			{
-				P = *List;
-				*List = Prev->next;
+				if((*List)->type == value)
+					{
+						P = *List;
+						*List = (*List)->next;
+					}
+				else
+					{
+						Prev = SearchPrevNode( *List, value);
+						if(Prev != Nil)
+							{
+								printf("%d",Prev->type);
+								system("PAUSE");
+								P = Prev->next;
+								Prev->next = P->next;
+							}
+					}
+				P->next = Nil;
+				type = P->type;
+				Dealokasi(P);
 			}
-		else
-			{
-				P = Prev->next;
-				Prev->next = P->next;
-			}
-		P->next = Nil;
-		type = P->type;
-		Dealokasi(P);
 		return type;
 	}

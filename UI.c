@@ -1,30 +1,6 @@
 #include "Lurik.h"
 
 
-void menupion(int x, int y, int warna){
-	//91,45
-	//90,44 18,16
-	ClearPilihan(x-1,y-1,18,16,warna);
-	gotoxy(x,y);setcolor(16*warna+0);printf("1. Tambah Pion");
-	gotoxy(x+2,y+1);printf("2. Pilih Pion");
-	gotoxy(x+2,y+2);printf("Pilih 1-2 : ");
-}
-
-void menuskill(int x, int y, int warna){
-	ClearPilihan(x-1,y-1,18,16,warna);
-	gotoxy(x,y);setcolor(16*warna+0);printf("1. Gunakan skill");
-	gotoxy(x+2,y+1);printf("2. Tidak perlu");
-	gotoxy(x+2,y+2);printf("Pilih 1-2 : ");
-}
-
-void menukesempatan(int x, int y, int warna){
-		//91,45
-		gotoxy(x,y);setcolor(16*warna+0);printf("Kesempatan : ");
-		gotoxy(x+2,y+1);printf("Biasa");
-		gotoxy(x+2,y+2);printf("Genap");
-		gotoxy(x+2,y+3);printf("Ganjil");
-}
-
 void gotoxy(int x, int y) //modul untuk memfungsikan fungsi gotoxy
 {
 	HANDLE hConsoleOutput;  
@@ -256,7 +232,7 @@ void menu() //modul menu
 	switch(pil){
 		case 51-10:
 			mode=gamemode();
-			prepareplayer(3,4,4);
+//			prepareplayer(3,4,4);
 			papan();
 			for(i = 0;i < 4;i++)
 				{
@@ -802,8 +778,8 @@ void Print_Awal(int player){
 						y=24;
 						break;
 				}
-				if(home[player][i]==true){
-					gerak_pion(player, i, y, x);
+				if(home[player][i].pion==true){
+					gerak_pion(player, home[player][i].type, y, x);
 				}
 			}
 			break;
@@ -831,8 +807,8 @@ void Print_Awal(int player){
 						y=78;
 						break;
 				}
-				if(home[player][i]==true){
-					gerak_pion(player, i, y, x);
+				if(home[player][i].pion==true){
+					gerak_pion(player, home[player][i].type, y, x);
 				}
 			}
 			break;
@@ -860,8 +836,8 @@ void Print_Awal(int player){
 						y=78;
 						break;
 				}
-				if(home[player][i]==true){
-					gerak_pion(player, i, y, x);
+				if(home[player][i].pion==true){
+					gerak_pion(player, home[player][i].type, y, x);
 				}
 			}
 			break;
@@ -889,20 +865,19 @@ void Print_Awal(int player){
 						y=6;
 						break;
 				}
-				if(home[player][i]==true){
-					gerak_pion(player, i, y, x);
+				if(home[player][i].pion==true){
+					gerak_pion(player, home[player][i].type, y, x);
 				}
 			}
 			break;
 	}
 }
 
-void ClearPilihan(int x, int y, int v, int h, int warna)
+void ClearPilihan(warna)
 	{
-		//90,44 18,16
 		int i,j;
-	for(i = y; i < x+v;i++){
-		for(j=y;j<y+h;j++){
+	for(i = 44; i < 60;i++){
+		for(j=90;j<108;j++){
 			gotoxy(j,i);
 			setcolor(16*warna+8);printf(" ");
 		}
@@ -1053,7 +1028,7 @@ int Print_Pion_Menu(int No_Player){
 	else if(No_Player == 3){
 		warna = 10;
 	}
-	ClearPilihan(90,44, 18,16,warna);
+	ClearPilihan(warna);
 	int i,n,Jmlh_Pion,Pilihan;
 	Lokasi Pion;
 	Node P;
