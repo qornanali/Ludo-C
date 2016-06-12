@@ -123,7 +123,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			}
 			gotoxy(0,60);printf("chance p%d: %d",noPlayer,ListPlayer[noPlayer].Info.chance);
 			Sleep(1000);
-			//getch();
+			getch();
 			if(step_to_be_eaten){
 				getch();
 				moving(noPlayer,temp,dadu);
@@ -160,13 +160,13 @@ int suicide(int noPlayer,int pos){
 
 Node SearchNodeToFlee( Node List, int value)
 	{
-		boolean found = false;
+		int found = 0;
 		
 		while( List != Nil && !found )
 			{
 				if(value-List->Position<=6)
 					{
-						found = true;
+						found = 1;
 					}
 				else
 					{
@@ -185,13 +185,14 @@ Node SearchNodeToFlee( Node List, int value)
 	
 Node SearchNodeToEat( Node List, int value)
 	{
-		boolean found = false;
+		int found = 0;
 		
 		while( List != Nil && !found )
 			{
 				if(List->Position-value<=6&&List->Position<53)
 					{
-						found = true;
+						found = 1;
+						//while(1)printf("a");
 					}
 				else
 					{
