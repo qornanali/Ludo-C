@@ -82,6 +82,7 @@ void drawdice(int x, int y, int dadu);
 void ClearPilihan( int warna);
 int Print_Pion_Menu(int No_Player);
 Lokasi Koordinat(int No_Pion);
+int Print_Pion_Baru_Menu(int No_Player, int t);
 
 /* Data Prototype */
 void prepareplayer(int x, int y, int n);
