@@ -189,7 +189,7 @@ Node SearchNodeToEat( Node List, int value)
 		
 		while( List != Nil && !found )
 			{
-				if(List->Position-value<=6)
+				if(List->Position-value<=6&&List->Position<53)
 					{
 						found = true;
 					}
@@ -198,7 +198,7 @@ Node SearchNodeToEat( Node List, int value)
 						List = List->next;
 					}
 			}
-		if(found&&Position-value<53)
+		if(found)
 			{
 				return (List);
 			}
