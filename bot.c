@@ -11,6 +11,7 @@ int tdk_ada_pion_di_petak_awal(int noPlayer);
 void comp_turn(int noPlayer);
 int suicide(int noPlayer,int pos);
 
+
 void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 	int warna,dadu,yg_gerak_pion_ke,step_to_finish,step_to_eat,step_to_be_eaten,difficulty=2,type;
 	Node temp,P;
@@ -180,14 +181,15 @@ int suicide(int noPlayer,int pos){
 	
 
 void keluarin_pion(int noPlayer){//unclean
-	int type_pion=CekHome(noPlayer);Lokasi Posisi;
+	int type_pion;
+	scanf("%d",&type_pion);	Lokasi Posisi;
 	InsLast(&ListPlayer[noPlayer].Pion,type_pion,13*noPlayer);
 	Node temp=ListPlayer[noPlayer].Pion;
 	while(temp->next!=NULL)temp=temp->next;
 	temp->Position = 13*noPlayer;
 	Posisi=posisi_koordinat(temp->Position);
 	moving(noPlayer,temp,1);
-	home[noPlayer][type_pion] = false;
+	home[noPlayer][type_pion].pion = false;
 	Print_Awal(noPlayer);
 }
 

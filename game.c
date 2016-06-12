@@ -58,7 +58,7 @@ int odd_even( int opt, int value)
 
 int shake_dice( int opt, int x, int y, int No_Player)
 	{
-		int i,j,stop = 0,start=32,bar,isplus,value,lama,no_pcheat,dadu;
+		int i,j,stop = 0,start,bar,isplus,value,lama,no_pcheat,dadu;
 		srand(time(NULL));
 		lama=rand()%9+1;
 		i = rand() % 5;
@@ -66,7 +66,6 @@ int shake_dice( int opt, int x, int y, int No_Player)
 		stop = 0;
 		drawdice(x, y, 6);
 		if(mode==6||No_Player==0){
-			start=0;
 			gotoxy(x-1,y+7);setcolor(16*8+0);printf("Tekan Spasi");
 			gotoxy(x-1,y+8);		printf("untuk Start");
 			do
@@ -84,11 +83,6 @@ int shake_dice( int opt, int x, int y, int No_Player)
 						dadu=dadu-(no_pcheat*13+1);
 						moving(no_pcheat,temp,dadu);
 						gotoxy(0,60);printf("%d",dadu);
-					}
-					else
-					if(start==56){
-						scanf("%d",&dadu);
-						return(dadu);
 					}
 				}
 			while(start != 32);
@@ -497,6 +491,34 @@ void herodoskill(int noPlayer, Node P, int *add){
 			break;
 		case 4 :
 			//pengintai
+			switch(noPlayer+1){
+				case 1 :
+					belok = 52;
+					break;
+				case 2 :
+					belok = 13;
+					break;
+				case 3 :
+					belok = 26;
+					break;
+				case 4 :
+					belok = 39;
+					break;
+			}
+			if(pos != belok){
+				Node Front = NULL;
+				int enemy;
+				do{
+					enemy = noPlayer;
+					Front = cekfront(noPlayer,pos,&enemy);
+					pos++;
+				}while(Front == NULL && pos < 4 && enemy == noPlayer);
+				if(Front != NULL && enemy != noPlayer){
+					int t = DelP(&ListPlayer[enemy].Pion,Front->type);
+					setHome(t, true, enemy);
+					Print_Awal(enemy);
+				}
+			}
 			break;
 		case 5 :
 			//pemburu

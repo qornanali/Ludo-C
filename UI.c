@@ -1014,78 +1014,7 @@ void drawdice(int x, int y, int dadu){
 	setcolor(8);
 	
 }
-int Print_Pion_Menu(int No_Player){
-	int warna;
-	if(No_Player == 0){
-		warna = 9;
-	}
-	else if(No_Player == 1){
-		warna = 12;
-	}
-	else if(No_Player == 2){
-		warna = 14;
-	}
-	else if(No_Player == 3){
-		warna = 10;
-	}
-	ClearPilihan(warna);
-	int i,n,Jmlh_Pion,Pilihan;
-	Lokasi Pion;
-	Node P;
-	Jmlh_Pion=CountNode(ListPlayer[No_Player].Pion);
-	P = ListPlayer[No_Player].Pion;
-	while(P != Nil)
-		{
-			Pion = Koordinat(P->type);
-			gerak_pion(No_Player, P->type, Pion.x, Pion.y);
-			P = P->next;
-		}
-	i=0;
-	Pion = Koordinat(i);
-	do{
-		for(n=93;n<108;n++){		
-			setcolor(16*warna+0);gotoxy(n,52);printf(" ");
-			setcolor(16*warna+0);gotoxy(n,58);printf(" ");
-		}
-		gotoxy((Pion.x)+2, (Pion.y)+4);setcolor(16*warna+0);printf("%c%c",17,16);setcolor(8);
-		Pilihan = getch();
-		if(Pilihan == 77){
-			if(Pion.x==100 && Pion.y==54){
-				i=0;
-			}else{
-				i=i+1;
-			}
-		}else if(Pilihan == 75 ){
-			if(Pion.x==92 && Pion.y==48){
-				i=3;
-			}else{
-				i=i-1;
-			}	
-		}else if(Pilihan == 80 ){
-			if(Pion.x==92 && Pion.y==54){
-				i=0;
-			}else if(Pion.x==100 && Pion.y==54){
-				i=1;
-			}else{
-				i=i+2;
-			}
-		}else if(Pilihan == 72 ){
-			if(Pion.x==92 && Pion.y==48){
-				i=2;
-			}else if(Pion.x==100 && Pion.y==48){
-				i=3;
-			}else{
-				i=i-2;
-			}
-		}
-		if(i>Jmlh_Pion){
-			i=0;
-		}
-		Pion = Koordinat(i);		
-	}while(Pilihan!=13 && Pilihan!=32);
-	return (i);
 
-}
 
 int Print_Pion_Baru_Menu(int No_Player, int t){
 	int warna;
@@ -1168,8 +1097,6 @@ int Print_Pion_Baru_Menu(int No_Player, int t){
 		}
 		Pion = Koordinat(i);		
 	}while(Pilihan!=13 && Pilihan!=32);
-	printf("ix : %d , ty : %d",i,home[No_Player][i].type);
-	getch();
 	return (i);
 }
 

@@ -80,7 +80,6 @@ void helpabout(int a);
 void Print_Awal(int player);
 void drawdice(int x, int y, int dadu);
 void ClearPilihan( int warna);
-int Print_Pion_Menu(int No_Player);
 Lokasi Koordinat(int No_Pion);
 int Print_Pion_Baru_Menu(int No_Player, int t);
 
@@ -100,9 +99,8 @@ Lokasi posisi_koordinat(int posisi);
 int Play();
 int CekHome(int noPlayer);
 Node cekfront(int mynoplayer, int posisi, int *hisnoplayer);
-Node SearchNodeToFlee( Node List, int value, int noPlayer);
-Node SearchNodeToEat( Node List, int value, int noPlayer);
-Node pion_terjauh(int noPlayer);
+Node SearchNodeToFlee( Node List, int value);
+Node SearchNodeToEat( Node List, int value);
 void keluarin_pion(int noPlayer);
 int petak_awal_player(int noPlayer);
 int step_left_to_be_eaten(int noPlayer,Node *temp);
@@ -132,5 +130,8 @@ Node SearchNode( Node List, int value);
 Node SearchPrevNode( Node List, int value);
 int CountNode( Node List);
 int DelP( Node *List, int value);
+
+/*bot prototype*/
+
 
 #endif
