@@ -1,6 +1,7 @@
 #include "Lurik.h"
 
 void prepareplayer(int x, int y, int n){
+	int warna;
 	system("cls");
 	setcolor(16*8+0);
 	gotoxy(x,y);
@@ -11,8 +12,20 @@ void prepareplayer(int x, int y, int n){
 	xdadu = 0;
 	terbesar = 0;
 	for(i = 0;i<nplayer;i++){
+		if(i == 0){
+			warna = 9;
+		}
+		else if(i == 1){
+			warna = 12;
+		}
+		else if(i == 2){
+			warna = 14;
+		}
+		else if(i == 3){
+			warna = 10;
+		}
+		setcolor(16*warna+0);
 		system("cls");
-		setcolor(16*8+0);
 		gotoxy(x,y);
 		if(i==0||mode==6)
 			printf("Nama Pemain %d",(i+1));

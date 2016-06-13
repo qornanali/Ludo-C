@@ -82,6 +82,7 @@ void drawdice(int x, int y, int dadu);
 void ClearPilihan( int warna);
 Lokasi Koordinat(int No_Pion);
 int Print_Pion_Baru_Menu(int No_Player, int t);
+void intro_pion(int player, int hero, int x, int y);
 
 /* Data Prototype */
 void prepareplayer(int x, int y, int n);
@@ -99,8 +100,8 @@ Lokasi posisi_koordinat(int posisi);
 int Play();
 int CekHome(int noPlayer);
 Node cekfront(int mynoplayer, int posisi, int *hisnoplayer);
-Node SearchNodeToFlee( Node List, int value);
-Node SearchNodeToEat( Node List, int value);
+Node SearchNodeToFlee( Node List, int value,int noPlayer);
+Node SearchNodeToEat( Node List, int value,int noPlayer);
 void keluarin_pion(int noPlayer);
 int petak_awal_player(int noPlayer);
 int step_left_to_be_eaten(int noPlayer,Node *temp);
@@ -110,6 +111,7 @@ int finish_player(int noPlayer);
 int step_left_to_finish(int noPlayer,Node *temp);
 int ada_pion_di_home(int noPlayer);
 int tdk_ada_pion_di_petak_awal(int noPlayer);
+Node pion_terjauh(int noPlayer);
 void comp_turn(int noPlayer);
 void pionmove(int noPlayer, Node P,int dadu);
 void setHome(int type, int state, int noPlayer);

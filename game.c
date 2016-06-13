@@ -58,16 +58,32 @@ int odd_even( int opt, int value)
 
 int shake_dice( int opt, int x, int y, int No_Player)
 	{
-		int i,j,stop = 0,start,bar,isplus,value,lama,no_pcheat,dadu;
+		int i,j,stop = 0,start=32,bar,isplus,value,lama,no_pcheat,dadu,warna;
 		srand(time(NULL));
 		lama=rand()%9+1;
 		i = rand() % 5;
 		j = 0;
 		stop = 0;
-		drawdice(x, y, 6);
+		
+		if(No_Player == 0){
+			warna = 9;
+		}
+		else if(No_Player == 1){
+			warna = 12;
+		}
+		else if(No_Player == 2){
+			warna = 14;
+		}
+		else if(No_Player == 3){
+			warna = 10;
+		}
+		drawdice(x+1, y, 6);
+		gotoxy(x-1,y+7);setcolor(16*warna+0);printf("Tekan Spasi");
+		gotoxy(x-1,y+8);printf("untuk Start");
 		if(mode==6||No_Player==0){
-			gotoxy(x-1,y+7);setcolor(16*8+0);printf("Tekan Spasi");
-			gotoxy(x-1,y+8);		printf("untuk Start");
+			start=0;
+			gotoxy(x-1,y+7);setcolor(16*warna+0);printf("Tekan Spasi");
+			gotoxy(x-1,y+8);printf("untuk Start");
 			do
 				{
 					start = getch();
@@ -98,15 +114,15 @@ int shake_dice( int opt, int x, int y, int No_Player)
 					{
 						value = odd_even(opt, value);
 					}
-				drawdice(x, y, value);				
-				gotoxy(x-1+(bar%10),y+6);setcolor(16*2);printf(" ");setcolor(8);setcolor(16*8+0);
+				drawdice(x+1, y, value);
+				gotoxy(x-1+(bar%10),y+6);setcolor(16*2);printf(" ");setcolor(8);setcolor(16*warna+0);
 					
 				if(bar%10==9){
 					gotoxy(x-1,y+6);setcolor(16*8+0);printf("          ");
 				}
 				if(mode==6||No_Player==0){
-					gotoxy(x-1,y+7);setcolor(16*8+0);		printf("Tekan Spasi");
-					gotoxy(x-1,y+8);		printf("untuk Stop ");setcolor(16*8+0);
+					gotoxy(x-1,y+7);setcolor(16*warna+0);		printf("Tekan Spasi");
+					gotoxy(x-1,y+8);		printf("untuk Stop ");setcolor(16*warna+0);
 					if (kbhit()) 
 						{
 							stop=getch();
@@ -602,6 +618,7 @@ void moving(int noPlayer, Node P ,int dadu )
 			clear_kotak(hapus.x*6,hapus.y*4);
 			if(Temp != Nil && Temp->before == P->before)
 				{
+					
 					Posisi = posisi_koordinat(Temp->before);
 					gerak_pion(EnemyTemp,Temp->type,Posisi.x*6,Posisi.y*4);
 				}
@@ -616,10 +633,8 @@ void moving(int noPlayer, Node P ,int dadu )
 			Posisi = posisi_koordinat(P->Position);
 			gerak_pion(noPlayer,P->type,Posisi.x*6,Posisi.y*4);
 			
-			Sleep(100);
-			
 		 	P->before = P->Position;
-		 	
+			Sleep(100);
 		 	if( noPlayer > 0 && P->Position == 51)
 		 		{
 		 			P->Position = 0;
@@ -634,8 +649,8 @@ void moving(int noPlayer, Node P ,int dadu )
 				 	if(ListPlayer[noPlayer].Pion->Position == pindah)
 					 	{
 							ListPlayer[noPlayer].Pion->Position = awal;
+							ListPlayer[noPlayer].Pion->Position = pindah;
 						}
-					
 					if( mundur == true)
 						{
 							P->Position--;

@@ -163,8 +163,8 @@ int DelP( Node *List, int value)
 						Prev = SearchPrevNode( *List, value);
 						if(Prev != Nil)
 							{
-								printf("%d",Prev->type);
-								system("PAUSE");
+//								printf("%d",Prev->type);
+//								system("PAUSE");
 								P = Prev->next;
 								Prev->next = P->next;
 							}
