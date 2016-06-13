@@ -79,7 +79,7 @@ int shake_dice( int opt, int x, int y, int No_Player)
 						temp=ListPlayer[no_pcheat].Pion;
 						while(temp->next!=NULL)temp=temp->next;
 						scanf("%d",&dadu);
-						if(dadu<no_pcheat*14&&no_pcheat>0)dadu+=52;else
+						if(dadu<no_pcheat*13+1&&no_pcheat>0)dadu+=52;else
 						if(dadu>52)dadu=dadu-no_pcheat*6+(no_pcheat*13+1)-1;
 						dadu=dadu-(no_pcheat*13+1);
 						moving(no_pcheat,temp,dadu);
