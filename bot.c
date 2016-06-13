@@ -8,6 +8,7 @@ int step_left_to_be_eaten(int noPlayer,Node *temp);
 int finish_player(int noPlayer);
 int step_left_to_finish(int noPlayer,Node *temp);
 int tdk_ada_pion_di_petak_awal(int noPlayer);
+Node pion_terjauh(int noPlayer);
 void comp_turn(int noPlayer);
 int suicide(int noPlayer,int pos);
 
@@ -181,8 +182,8 @@ int suicide(int noPlayer,int pos){
 	
 
 void keluarin_pion(int noPlayer){//unclean
-	int type_pion;
-	scanf("%d",&type_pion);	Lokasi Posisi;
+	int type_pion = CekHome(noPlayer);	
+	Lokasi Posisi;
 	InsLast(&ListPlayer[noPlayer].Pion,type_pion,13*noPlayer);
 	Node temp=ListPlayer[noPlayer].Pion;
 	while(temp->next!=NULL)temp=temp->next;
