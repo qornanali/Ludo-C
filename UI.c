@@ -1289,3 +1289,174 @@ int gamemode(){
 	}while(korektor!=1);
 	return pil;
 }
+
+void covered_pion(int x, int y){
+	int xt = (x+35);
+	int yt = (y+23);
+	int x0 = x;
+	int y0 = y;
+	while(y0<=yt){
+		x0=x;
+		while(x0<=xt){
+	if(((x0==x+13)&&(y0<=y+5))||((y0==y+2)&&((x0>=x+10)&&(x0<=x+23)))||
+					((y0==y+3)&&((x0==x+9)||(x0==x+24)))||((y0==y+4)&&((x0==x+8)||(x0==x+25)||(x0==x+14)))
+					||((y0==y+5)&&((x0==x+7)||(x0==x+14)||(x0==x+15)||(x0==x+16)||(x0==x+26)))
+					||((y0==y+6)&&((x0==x+7)||(x0==x+14)||(x0==x+15)||(x0==x+26)))
+					||((y0==y+7)&&((x0==x+7)||((x0>=x+9)&&(x0<=x+13))||((x0>=x+16)&&(x0<=x+22))
+					||(x0==x+26)))||((y0==y+8)&&((x0==x+7)||(x0==x+10)||(x0==x+14)||(x0==x+15)||(x0==x+21)||(x0==x+26)))
+					||((y0==y+9)&&((x0==x+7)||(x0==x+11)||(x0==x+14)||(x0==x+20)||(x0==x+25)||(x0==x+26)))
+					||((y0==y+10)&&((x0==x+8)||((x0>=x+12)&&(x0<=x+19))||(x0==x+25)))
+					||((y0==y+11)&&((x0==x+7)||(x0==x+11)||(x0==x+13)||(x0==x+15)||(x0==x+17)||(x0==x+20)||(x0==x+26)))
+					||((y0==y+12)&&((x0>=x+6)&&(x0<=x+27)))||((y0==y+13)&&(((x0>=x+7)&&(x0<=x+9))||((x0>=x+22)&&(x0<=x+26))))
+					||((y0==y+14)&&((x0==x+7)||(x0==x+8)||(x0==x+10)||((x0>=x+23)&&(x0<=x+26))))
+					||((y0==y+15)&&((x0==x+7)||(x0==x+10)||(x0==x+24)||(x0==x+26)))
+					||((y0==y+16)&&((x0==x+7)||(x0==x+8)||(x0==x+10)||((x0>=x+24)&&(x0<=x+27))))
+					||((y0==y+17)&&((x0==x+6)||(x0==x+7)||(x0==x+10)||(x0==x+24)||(x0==x+27)))
+					||((y0==y+18)&&((x0==x+10)||(x0==x+11)||(x0==x+13)||(x0==x+20)||(x0==x+22)||(x0==x+23)||(x0==x+25)))
+					||((y0==y+19)&&((x0==x+9)||((x0>=x+14)&&(x0<=x+19))||(x0==x+25)))||((y0==y+20)&&(((x0>=x+9)&&(x0<=x+13))||((x0>=x+20)&&(x0<=x+25))))){
+						gotoxy(x0,y0);setcolor(16*7);printf(" ");setcolor(8);
+					}
+					else if((y0==y+3 &&(((x0>=x+10)&&(x0<=x+12))||((x0>=x+14)&&(x0<=x+21))))||((y0==y+4)&&(((x0>=x+9)&&(x0<=x+12))||((x0>=x+15)&&(x0<=x+22))))||(((y0==y+5)||(y0==y+6))&&(((x0>=x+8)&&(x0<=x+12))||((x0>=x+16)&&(x0<=x+23))))||((y0==y+6)&&(x0==x+13))||((y0==y+7)&&((x0==x+8)||(x0==x+14)||(x0==x+15)||(x0==x+23)))||((y0==y+8)&&((x0==x+8)||(x0==x+9)||(x0==x+22)||(x0==x+23)))||((y0==y+9)&&(((x0>=x+8)&&(x0<=x+10))||(x0==x+21)||(x0==x+22)))||((y0==y+10)&&(((x0>=x+9)&&(x0<=x+11))||((x0>=x+20)&&(x0<=x+22))))||((y0==y+11)&&(((x0>=x+8)&&(x0<=x+8+2))||(((x0>=x+21)&&(x0<=x+21+2)))))||((y0==y+14)&&((x0>=x+13)&&(x0<=x+18)))||((y0==y+15)&&((x0==x+11)||(x0==x+12)||(x0==x+19)||(x0==x+20)))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+					else if(((y0==y+3)&&((x0==x+22)||(x0==x+23)))||((y0==y+4)&&((x0==x+23)||(x0==x+24)))||(((y0>=y+5)&&(y0<=y+11))&&(x0==x+24))||(((y0>=y+5)&&(y0<=y+8))&&(x0==x+25))||((x0==x+23)&&((y0==y+9)||(y0==y+10)))||((x0==x+25)&&(y0==y+11))||((y0==y+13)&&((x0==x+3)||(x0==x+10)||(x0==x+30)))||((y0==y+14)&&((x0==x+4)||(x0==x+9)||(x0==x+22)||(x0==x+29)))||((y0==y+15)&&((x0==x+5)||(x0==x+8)||(x0==x+9)||((x0>=x+13)&&(x0<=x+18))||(x0==x+23)||(x0==x+25)||(x0==x+28)))||((y0==y+16)&&((x0==x+6)||((x0>=x+11)&&(x0<=x+13))||((x0>=x+18)&&(x0<=x+23))))||((y0==y+17)&&((x0==x+8)||(x0==x+23)||(x0==x+26)))||((y0==y+18)&&((x0==x+12)||(x0==x+21)||(x0==x+24)))||((y0==y+19)&&(((x0>=x+10)&&(x0<=x+14))||((x0>=x+20)&&(x0<=x+24))))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+					else if(((y0==y+8)&&(((x0>=x+11)&&(x0<=x+13))||((x0>=x+16)&&(x0<=x+20))))||((y0==y+9)&&((x0==x+12)||(x0==x+13)||((x0>=x+15)&&(x0<=x+19))))||((y0==y+11)&&((x0==x+12)||(x0==x+14)||(x0==x+16)||(x0==x+18)||(x0==x+19)))||((y0==y+16)&&((x0>=x+14)&&(x0<=x+17)))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+					else if(((y0==y+13)&&((x0>=x+11)&&(x0<=x+21)))||((y0==y+14)&&((x0>=x+19)&&(x0<=x+21)||(x0==x+11)||(x0==x+12)))||((y0==y+15)&&((x0==x+21)||(x0==x+22)))||((y0==y+17)&&((x0>=x+11)&&(x0<=x+22)))||((y0==y+18)&&((x0>=x+14)&&(x0<=x+19)))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+			x0++;
+		}
+		y0++;
+	}
+}
+
+int pilih_pion(int np){
+	int pencet,x=74,y=40,xt=71,yt=9;
+	int hero=0,korektor=0;
+	while(hero<=4){
+		gerak_pion(np,hero,72+(7*hero),36);	
+		hero++;
+	}
+	hero=0;
+	while(hero<=1){
+		gerak_pion(np,hero+5,83+(7*hero),41);	
+		hero++;
+	}
+	x=74;y=40;
+	do{
+		for(xt=71;xt<=106;xt++){
+			for(yt=9;yt<=32;yt++){
+				gotoxy(xt,yt);setcolor(15*16);printf(" ");setcolor(8);
+			}
+		}
+		gotoxy(x,y);setcolor(15*16);printf("%c%c",17,16);setcolor(8);
+		if(x==74 && y==40){
+			hero=0;
+			gotoxy(87,34);setcolor(15*16);printf("KUDA");
+		}
+		else if(x==81 && y==40){
+			hero=1;
+			gotoxy(85,34);setcolor(15*16);printf("BANTENG");
+		}
+		else if(x==88 && y==40){
+			hero=2;
+			gotoxy(85,34);setcolor(15*16);printf("KSATRIA");
+		}
+		else if(x==95 && y==40){
+			hero=3;
+			gotoxy(85,34);setcolor(15*16);printf("PENGINTAI");
+		}
+		else if(x==102 && y==40){
+			hero=4;
+			gotoxy(85,34);setcolor(15*16);printf("PEMBURU");
+		}
+		else if(x==85 && y==45){
+			hero=5;
+			gotoxy(85,34);setcolor(15*16);printf("PENYIHIR");
+		}
+		else if(x==92 && y==45){
+			hero=6;
+			gotoxy(87,34);setcolor(15*16);printf("PATIH");
+		}
+		intro_pion(np,hero,71,9);
+		
+		pencet=getch();
+		gotoxy(x,y);setcolor(15*16);printf("  ");setcolor(8);
+		gotoxy(85,34);setcolor(15*16);printf("          ");setcolor(8);
+		if(pencet==13 || pencet==32){
+			korektor=1;
+		}
+		if(pencet==75){//kiri
+			if(x==74 && y==40){
+				
+				x=92;y=45;
+			}
+			else if(x==85 && y==45){
+				x=102;y=40;
+			}
+			else{
+				x-=7;
+			}
+			
+		}
+		if(pencet==77){//kanan
+			if(x==102 && y==40){
+				x=85;y=45;
+			}
+			else if(x==92 && y==45){
+				x=74;y=40;
+			}
+			else{
+				x+=7;
+			}
+		}
+		
+	}while(korektor!=1);
+	return hero;
+}
+
+void story(int np){
+	int b,k;
+	b=73-1;k=2;
+	setcolor(16*15+0);
+	switch(np){
+		case 0:{
+			gotoxy(85-1,k);printf("SRIWIJAYA");
+			gotoxy(b,k+2);printf("Sriwijaya, bertujuan menghancurkan");
+			gotoxy(b,k+3);printf("      Pusaka Alam agar tidak     ");
+			gotoxy(b,k+4);printf("  terjadi perebutan kekuasaan    ");
+			gotoxy(b,k+5);printf("           di Indrata            ");
+			break;
+		}
+		case 1:{
+			gotoxy(85-1,k);printf("MAJAPAHIT");
+			gotoxy(b,k+2);printf("Majapahit, bertujuan menggunakan ");
+			gotoxy(b,k+3);printf("  Pusaka Alam untuk menyatukan   ");
+			gotoxy(b,k+4);printf("seluruh kerajaan Indrata menjadi ");
+			gotoxy(b,k+5);printf("satu dengan kekuatan Pusaka Alam ");
+			break;
+		}
+		case 2:{
+			gotoxy(87-1,k);printf("DEMAK");
+			gotoxy(b,k+2);printf(" Demak, bertujuan menyembunyikan ");
+			gotoxy(b,k+3);printf("Pusaka Alam sebagai alasan untuk ");
+			gotoxy(b,k+4);printf("    menyemimbangkan kekuatan     ");
+			gotoxy(b,k+5);printf("            di Indrata           ");
+			break;
+		}
+		case 3:{
+			gotoxy(87-1,k);printf("KUTAI");
+			gotoxy(b,k+2);printf("   Kutai, bertujuan menggunakan  ");
+			gotoxy(b,k+3);printf("  Pusaka Alam untuk meghentikan  ");
+			gotoxy(b,k+4);printf("  perang dan menetralkan Indrata ");
+//			gotoxy(b,k+4);printf("satu dengan kekuatan Pusaka Alam");
+			break;
+		}
+		
+	}
+	covered_pion(71,9);
+}
