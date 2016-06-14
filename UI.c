@@ -113,9 +113,10 @@ void intro()
 		getch();
 	}
 
+
 void menu() //modul menu
 {
-	
+
 	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
 	system("cls");
 	y=0;
@@ -123,7 +124,7 @@ void menu() //modul menu
 				x=0;
 				while(x<=108){
 					if(!((x>=27-2-5 && x<=27-1+66-5)&&(y>=37-1 && y<=37-1+14))){
-					
+
 						if((x-y)%5==0){
 							gotoxy(x,y);setcolor(9*16);printf(" ");setcolor(16*0+8);
 						}
@@ -142,10 +143,10 @@ void menu() //modul menu
 					}
 					x++;
 				}
-				
+
 				y++;
 			}
-	
+
 	x=31;
 	while(x<=75){
 		y=6;
@@ -163,7 +164,7 @@ void menu() //modul menu
 				else if(x>=66 && x<=73){
 					gotoxy(x,y);setcolor(6);printf(" ");setcolor(16*0+8);
 				}
-				
+
 			}
 			else if(((y>=8 && y<=17)&&((x==32)||(x==35)))||(y==7 && (x>=33 && x<=34))||(y==17 && (x>=36 && x<=40))||(y==18 && (x==32 || x==41))||(y==19 && (x>=33 && x<=40))){
 				gotoxy(x,y);setcolor(9);printf("0");setcolor(16*0+8);
@@ -184,16 +185,25 @@ void menu() //modul menu
 		}
 		x++;
 	}
+	menu2();
+}
+
+
+void menu2(){
+	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
 	x=27;
 	y=37;
-	pil=y+4;	
-	do{
+	pil=y+4;
+    do{
 		draw_shape(x-2-5,y-1,66,14,2);
 		gotoxy(x-4,y); 	printf("\t\t\t         MENU\t\t\t            ");
+        gotoxy(x-4,y+2); 	printf("\t\t\t               \t\t\t            ");
 		gotoxy(x-4,y+4); 	printf("\t\t\t         PLAY\t\t\t            ");
+        gotoxy(x-4,y+5); 	printf("\t\t\t               \t\t\t            ");
 		gotoxy(x-4,y+6); 	printf("\t\t\t         HELP\t\t\t            ");
 		gotoxy(x-4,y+8); 	printf("\t\t\t       HIGHSCORE\t\t            ");
 		gotoxy(x-4,y+10); printf("\t\t\t         ABOUT\t\t\t            ");
+        gotoxy(x-4,y+11); 	printf("\t\t\t               \t\t\t            ");
 		gotoxy(x-4,y+12); printf("\t\t\t         EXIT\t\t\t            ");
 		if(pil == y+4){
 			gotoxy(x-4,pil); setcolor(16*12+0);printf("\t\t\t         PLAY\t\t\t            ");setcolor(8);
@@ -226,18 +236,12 @@ void menu() //modul menu
 		if(pil>y+13){
 			pil=y+4;
 		}
-		
+
 	}while(korektor!=1);
-	
+
 	switch(pil){
 		case 51-10:
-			mode=gamemode();
-//			prepareplayer(3,4,4);
-			papan();
-			for(i = 0;i < 4;i++)
-				{
-					Print_Awal(i);
-				}
+			menu3();
 		break;
 		case 53-10:
 			helpabout(0);
@@ -250,13 +254,135 @@ void menu() //modul menu
 		case 57-10:
 			helpabout(2);
 			menu();
-		break;	
+		break;
 		case 59-10:
 			//exit
 		break;
 	}
-	
 }
+
+
+void menu3(){
+	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
+	x=27;
+	y=37;
+	pil=y+5;
+    do{
+        draw_shape(x-2-5,y-1,66,14,2);
+        gotoxy(x-4,y); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+2); 	printf("\t\t\t         MODE\t\t\t            ");
+        gotoxy(x-4,y+4); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+5); 	printf("\t\t            Human vs Human\t\t            ");
+		gotoxy(x-4,y+6); 	printf("\t\t\t             \t\t\t            ");
+	    gotoxy(x-4,y+8); 	printf("\t\t            Human vs Computer\t\t            ");
+		gotoxy(x-4,y+10); 	printf("\t\t\t             \t\t\t            ");
+        gotoxy(x-4,y+11); printf("\t\t\t         Back\t\t\t            ");
+        gotoxy(x-4,y+12); 	printf("\t\t\t               \t\t\t            ");
+        if(pil == y+5){
+            gotoxy(x-4,pil); setcolor(16*12+0);printf("\t\t            Human vs Human\t\t            ");setcolor(8);
+        }
+        else if(pil == y+8){
+            gotoxy(x-4,pil); setcolor(16*10+0);printf("\t\t            Human vs Computer\t\t            ");setcolor(8);
+        }
+        else if (pil == y+11){
+            gotoxy(x-4,pil); setcolor(16*13+0);printf("\t\t\t         Back\t\t\t            ");setcolor(8);
+        }
+        pencet=getch();
+        if(pencet==13 || pencet==32){
+            korektor=1;
+        }
+        if(pencet==80){
+            pil+=3;
+        }
+        if(pencet==72){
+            pil=pil-3;
+        }
+        if(pil<y+3){
+            pil=y+11;
+        }
+        if(pil>y+13){
+            pil=y+5;
+        }
+
+    }while(korektor!=1);
+
+    switch(pil){
+        case 52-10:
+        	mode = 1;
+			prepareplayer(3,4,4);
+			papan();
+			for(i = 0;i < 4;i++)
+				{
+					Print_Awal(i);
+				}
+        break;
+        case 55-10:
+			menu4();
+        break;
+        case 58-10:
+        	menu2();
+        break;
+   	}
+
+ }
+
+
+void menu4(){
+	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
+	x=27;
+	y=37;
+	pil=y+5;
+    do{
+        draw_shape(x-2-5,y-1,66,14,2);
+        gotoxy(x-4,y); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+2); 	printf("\t\t\t         LEVEL\t\t\t            ");
+        gotoxy(x-4,y+4); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+5); 	printf("\t\t\t         Easy\t\t\t            ");
+		gotoxy(x-4,y+6); 	printf("\t\t\t             \t\t\t            ");
+	    gotoxy(x-4,y+8); 	printf("\t\t\t         Medium\t\t\t            ");
+		gotoxy(x-4,y+10); 	printf("\t\t\t             \t\t\t            ");
+        gotoxy(x-4,y+11);   printf("\t\t\t         Hard\t\t\t            ");
+        gotoxy(x-4,y+12); 	printf("\t\t\t               \t\t\t            ");
+        if(pil == y+5){
+            gotoxy(x-4,pil); setcolor(16*12+0);printf("\t\t\t         Easy\t\t\t            ");setcolor(8);
+        }
+        else if(pil == y+8){
+            gotoxy(x-4,pil); setcolor(16*10+0);printf("\t\t\t         Medium\t\t\t            ");setcolor(8);
+        }
+        else if (pil == y+11){
+            gotoxy(x-4,pil); setcolor(16*13+0);printf("\t\t\t         Hard\t\t\t            ");setcolor(8);
+        }
+        pencet=getch();
+        if(pencet==13 || pencet==32){
+            korektor=1;
+        }
+        if(pencet==80){
+            pil+=3;
+        }
+        if(pencet==72){
+            pil=pil-3;
+        }
+        if(pil<y+3){
+            pil=y+11;
+        }
+        if(pil>y+13){
+            pil=y+5;
+        }
+
+    }while(korektor!=1);
+
+    switch(pil){
+        case 52-10:
+        break;
+        case 55-10:
+        break;
+        case 58-10:
+        break;
+   	}
+
+ }
+
+
 void papan()
 {
 	system("cls");
