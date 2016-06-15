@@ -1,7 +1,7 @@
 #include "Lurik.h"
 
 void prepareplayer(int x, int y, int n){
-	int warna;
+	int warna,j,b,k;
 	system("cls");
 	setcolor(16*8+0);
 	gotoxy(x,y);
@@ -28,13 +28,42 @@ void prepareplayer(int x, int y, int n){
 		system("cls");
 		gotoxy(x,y);
 		if(i==0||mode==6)
+		{
+			draw_shape(72-2,0,34+2,50,1);
+			for(b=73-2;b<=34+72;b++){
+				for(k=1;k<=50;k++){
+					gotoxy(b,k);setcolor(15*16);printf(" ");
+				}
+			}
+			story(i);
+			setcolor(16*warna+0);
+			gotoxy(x,y);
 			printf("Nama Pemain %d",(i+1));
+		}
 		else
-			printf("Nama BOT %d",(i+1));
+			{
+				printf("Nama BOT %d",(i+1));
+			}
 		draw_shape(x,y+1,30,1,2);
 		gotoxy(x+1,y+2);
 		if(mode==6||i==0){
 			scanf("%s",&ListPlayer[i].Info.nama);
+		dadu = 1;
+		dadu = shake_dice(1,x+1,y+5,i);
+		if(xdadu<dadu){
+			xdadu = dadu;
+			terbesar = i;
+		}
+		for(j = 0;j<4;j++)
+			{
+				setcolor(16*warna+0);
+				gotoxy(x+15,y+4);
+				printf("Pilih Pion %d : ",(j+1));
+				home[i][j].type = pilih_pion(i);
+				Sleep(150);
+				pionmu(i);
+			}
+		Sleep(1000);
 		}else{
 			srand(time(NULL));
 			no=rand()%6;
@@ -45,14 +74,14 @@ void prepareplayer(int x, int y, int n){
 			strcpy(ListPlayer[i].Info.nama,namabot[no]);
 			avainama[no]='t';
 			printf("%s",ListPlayer[i].Info.nama);
+			for(j = 0;j<4;j++)
+			{
+				setcolor(16*warna+0);
+				gotoxy(x+15,y+4);
+				home[i][j].type = home[0][j].type;
+				pionmu(i);
+			}
 		}
-		dadu = 1;
-		dadu = shake_dice(1,x+1,y+5,i);
-		if(xdadu<dadu){
-			xdadu = dadu;
-			terbesar = i;
-		}
-		Sleep(1000);
 	}
 }
 

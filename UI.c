@@ -115,7 +115,7 @@ void intro()
 
 void menu() //modul menu
 {
-	
+
 	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
 	system("cls");
 	y=0;
@@ -123,7 +123,7 @@ void menu() //modul menu
 				x=0;
 				while(x<=108){
 					if(!((x>=27-2-5 && x<=27-1+66-5)&&(y>=37-1 && y<=37-1+14))){
-					
+
 						if((x-y)%5==0){
 							gotoxy(x,y);setcolor(9*16);printf(" ");setcolor(16*0+8);
 						}
@@ -142,10 +142,10 @@ void menu() //modul menu
 					}
 					x++;
 				}
-				
+
 				y++;
 			}
-	
+
 	x=31;
 	while(x<=75){
 		y=6;
@@ -163,7 +163,7 @@ void menu() //modul menu
 				else if(x>=66 && x<=73){
 					gotoxy(x,y);setcolor(6);printf(" ");setcolor(16*0+8);
 				}
-				
+
 			}
 			else if(((y>=8 && y<=17)&&((x==32)||(x==35)))||(y==7 && (x>=33 && x<=34))||(y==17 && (x>=36 && x<=40))||(y==18 && (x==32 || x==41))||(y==19 && (x>=33 && x<=40))){
 				gotoxy(x,y);setcolor(9);printf("0");setcolor(16*0+8);
@@ -184,6 +184,7 @@ void menu() //modul menu
 		}
 		x++;
 	}
+	
 	int color, chars;
 	color=rand()%4;
 	if(color==2){
@@ -191,16 +192,26 @@ void menu() //modul menu
 	}
 	chars=rand()%7;
 	intro_pion(color,chars,72,14);
+	setcolor(8);
+	menu2();
+}
+
+
+void menu2(){
+	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
 	x=27;
 	y=37;
-	pil=y+4;	
-	do{
+	pil=y+4;
+    do{
 		draw_shape(x-2-5,y-1,66,14,2);
 		gotoxy(x-4,y); 	printf("\t\t\t         MENU\t\t\t            ");
+        gotoxy(x-4,y+2); 	printf("\t\t\t               \t\t\t            ");
 		gotoxy(x-4,y+4); 	printf("\t\t\t         PLAY\t\t\t            ");
+        gotoxy(x-4,y+5); 	printf("\t\t\t               \t\t\t            ");
 		gotoxy(x-4,y+6); 	printf("\t\t\t         HELP\t\t\t            ");
 		gotoxy(x-4,y+8); 	printf("\t\t\t       HIGHSCORE\t\t            ");
 		gotoxy(x-4,y+10); printf("\t\t\t         ABOUT\t\t\t            ");
+        gotoxy(x-4,y+11); 	printf("\t\t\t               \t\t\t            ");
 		gotoxy(x-4,y+12); printf("\t\t\t         EXIT\t\t\t            ");
 		if(pil == y+4){
 			gotoxy(x-4,pil); setcolor(16*12+0);printf("\t\t\t         PLAY\t\t\t            ");setcolor(8);
@@ -233,18 +244,12 @@ void menu() //modul menu
 		if(pil>y+13){
 			pil=y+4;
 		}
-		
+
 	}while(korektor!=1);
-	
+
 	switch(pil){
 		case 51-10:
-			mode=gamemode();
-//			prepareplayer(3,4,4);
-			papan();
-			for(i = 0;i < 4;i++)
-				{
-					Print_Awal(i);
-				}
+			menu3();
 		break;
 		case 53-10:
 			helpabout(0);
@@ -257,13 +262,233 @@ void menu() //modul menu
 		case 57-10:
 			helpabout(2);
 			menu();
-		break;	
+		break;
 		case 59-10:
 			//exit
 		break;
 	}
-	
 }
+
+
+void menu3(){
+	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
+	x=27;
+	y=37;
+	pil=y+5;
+    do{
+        draw_shape(x-2-5,y-1,66,14,2);
+        gotoxy(x-4,y); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+2); 	printf("\t\t\t         MODE\t\t\t            ");
+        gotoxy(x-4,y+4); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+5); 	printf("\t\t            Human vs Human\t\t            ");
+		gotoxy(x-4,y+6); 	printf("\t\t\t             \t\t\t            ");
+	    gotoxy(x-4,y+8); 	printf("\t\t            Human vs Computer\t\t            ");
+		gotoxy(x-4,y+10); 	printf("\t\t\t             \t\t\t            ");
+        gotoxy(x-4,y+11); printf("\t\t\t         Back\t\t\t            ");
+        gotoxy(x-4,y+12); 	printf("\t\t\t               \t\t\t            ");
+        if(pil == y+5){
+            gotoxy(x-4,pil); setcolor(16*12+0);printf("\t\t            Human vs Human\t\t            ");setcolor(8);
+        }
+        else if(pil == y+8){
+            gotoxy(x-4,pil); setcolor(16*10+0);printf("\t\t            Human vs Computer\t\t            ");setcolor(8);
+        }
+        else if (pil == y+11){
+            gotoxy(x-4,pil); setcolor(16*13+0);printf("\t\t\t         Back\t\t\t            ");setcolor(8);
+        }
+        pencet=getch();
+        if(pencet==13 || pencet==32){
+            korektor=1;
+        }
+        if(pencet==80){
+            pil+=3;
+        }
+        if(pencet==72){
+            pil=pil-3;
+        }
+        if(pil<y+3){
+            pil=y+11;
+        }
+        if(pil>y+13){
+            pil=y+5;
+        }
+
+    }while(korektor!=1);
+
+    switch(pil){
+        case 52-10:
+        	mode = 6;
+			prepareplayer(3,4,4);
+			papan();
+			for(i = 0;i < 4;i++)
+				{
+					Print_Awal(i);
+				}
+        break;
+        case 55-10:
+			menu4();
+        break;
+        case 58-10:
+        	menu2();
+        break;
+   	}
+
+ }
+
+
+void menu4(){
+	int x, y, pil=y+4,cek1=26,cek2=27,pencet,korektor=0,xi,yi,i;
+	x=27;
+	y=37;
+	pil=y+5;
+    do{
+        draw_shape(x-2-5,y-1,66,14,2);
+        gotoxy(x-4,y); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+2); 	printf("\t\t\t         LEVEL\t\t\t            ");
+        gotoxy(x-4,y+4); 	printf("\t\t\t               \t\t\t            ");
+        gotoxy(x-4,y+5); 	printf("\t\t\t         Easy\t\t\t            ");
+		gotoxy(x-4,y+6); 	printf("\t\t\t             \t\t\t            ");
+	    gotoxy(x-4,y+8); 	printf("\t\t\t         Medium\t\t\t            ");
+		gotoxy(x-4,y+10); 	printf("\t\t\t             \t\t\t            ");
+        gotoxy(x-4,y+11);   printf("\t\t\t         Hard\t\t\t            ");
+        gotoxy(x-4,y+12); 	printf("\t\t\t               \t\t\t            ");
+        if(pil == y+5){
+            gotoxy(x-4,pil); setcolor(16*12+0);printf("\t\t\t         Easy\t\t\t            ");setcolor(8);
+        }
+        else if(pil == y+8){
+            gotoxy(x-4,pil); setcolor(16*10+0);printf("\t\t\t         Medium\t\t\t            ");setcolor(8);
+        }
+        else if (pil == y+11){
+            gotoxy(x-4,pil); setcolor(16*13+0);printf("\t\t\t         Hard\t\t\t            ");setcolor(8);
+        }
+        pencet=getch();
+        if(pencet==13 || pencet==32){
+            korektor=1;
+        }
+        if(pencet==80){
+            pil+=3;
+        }
+        if(pencet==72){
+            pil=pil-3;
+        }
+        if(pil<y+3){
+            pil=y+11;
+        }
+        if(pil>y+13){
+            pil=y+5;
+        }
+
+    }while(korektor!=1);
+
+    switch(pil){
+        case 52-10:
+        	mode = 7;
+        	difficulty=0;
+			prepareplayer(3,4,4);
+			papan();
+			for(i = 0;i < 4;i++)
+				{
+					Print_Awal(i);
+				}
+        break;
+        case 55-10:
+        	mode = 7;
+        	difficulty=1;
+			prepareplayer(3,4,4);
+			papan();
+			for(i = 0;i < 4;i++)
+				{
+					Print_Awal(i);
+				}
+        break;
+        case 58-10:
+        	mode = 7;
+        	difficulty=2;
+			prepareplayer(3,4,4);
+			papan();
+			for(i = 0;i < 4;i++)
+				{
+					Print_Awal(i);
+				}
+        break;
+   	}
+
+ }
+
+void cek_menang()
+{
+	int y = -27,k=0;
+	system("cls");
+	if(k==1)
+	{
+		system("color 9F");
+		int i=3;
+		gotoxy(i,44+y);printf(" ******    *******     ***  ***       ***  ***        ***    *******    ***       ***    *******    ");
+		gotoxy(i,45+y);printf("********   *********   ***  ***       ***  ***        ***   ***   ***    ***     ***    ***   ***   ");
+		gotoxy(i,46+y);printf("***   ***  ***    ***  ***  ***   *   ***  ***        ***  ***     ***    ***   ***    ***     ***  ");
+		gotoxy(i,47+y);printf(" ***       ***   ***   ***  ***  ***  ***  ***        ***  ***     ***     *** ***     ***     ***  ");
+		gotoxy(i,48+y);printf("   ***     *** ***     ***  *** ***** ***  ***        ***  ***********       ***       ***********  ");
+		gotoxy(i,49+y);printf("***  ****  ***  ***    ***  ****** ******  ***  ***   ***  ***********       ***       ***********  ");
+		gotoxy(i,50+y);printf("*********  ***   ***   ***  *****   *****  ***  ***   ***  ***     ***       ***       ***     ***  ");
+		gotoxy(i,51+y);printf("  *****    ***    ***  ***  ****     ****  ***   *******   ***     ***       ***       ***     ***  ");		
+	}
+	else if(k==2)
+	{
+		system("color E0");
+		int i=1;
+		//majapahit
+		gotoxy(i,44+y);printf("****     ****    *******          ***    *******    *******       *******    ***      ***  ***  ***********  ");
+		gotoxy(i,45+y);printf("*****   *****   ***   ***         ***   ***   ***   ***   ***    ***   ***   ***      ***  ***  ***********  ");
+		gotoxy(i,46+y);printf("****** ******  ***     ***        ***  ***     ***  ***    ***  ***     ***  ***      ***  ***      ***      ");
+		gotoxy(i,47+y);printf("*** ***** ***  ***     ***        ***  ***     ***  ***    ***  ***     ***  ************  ***      ***      ");
+		gotoxy(i,48+y);printf("***  ***  ***  ***********        ***  ***********  ***   ***   ***********  ************  ***      ***      ");
+		gotoxy(i,49+y);printf("***   *   ***  ***********  ***   ***  ***********  *******     ***********  ***      ***  ***      ***      ");
+		gotoxy(i,50+y);printf("***       ***  ***     ***  ***   ***  ***     ***  ***         ***     ***  ***      ***  ***      ***      ");
+		gotoxy(i,51+y);printf("***       ***  ***     ***   *******   ***     ***  ***         ***     ***  ***      ***  ***      ***      ");		
+//		gotoxy(i,44);printf("***   ***    *******    *******     ***********    *******    ***     ***  *********     ***        ");
+//		gotoxy(i,45);printf("***   ***   ***   ***   *********   ***********   ***   ***   ****    ***  *********   ***          ");
+//		gotoxy(i,46);printf("***  ***   ***     ***  ***    ***      ***      ***     ***  *****   ***  ***        ***           ");
+//		gotoxy(i,47);printf("*** **     ***     ***  ***   ***       ***      ***     ***  *** **  ***  *********  ***           ");
+//		gotoxy(i,48);printf("*** **     ***********  *** ***         ***      ***********  ***  ** ***  *********  ***           ");
+//		gotoxy(i,49);printf("***  ***   ***********  ***  ***        ***      ***********  ***   *****  ***        ***     ***   ");
+//		gotoxy(i,50);printf("***   ***  ***     ***  ***   ***       ***      ***     ***  ***    ****  *********   ***    ***   ");
+//		gotoxy(i,51);printf("***   ***  ***     ***  ***    ***      ***      ***     ***  ***     ***  *********     ******     ");			
+	}
+	else if(k==3)
+	{
+		system("color CF");
+		int i=22;
+		gotoxy(i,44+y);printf("***   ***  ***     ***   ***********    *******    ***  ");
+		gotoxy(i,45+y);printf("***   ***  ***     ***   ***********   ***   ***   ***  ");
+		gotoxy(i,46+y);printf("***  ***   ***     ***       ***      ***     ***  ***  ");
+		gotoxy(i,47+y);printf("*** **     ***     ***       ***      ***     ***  ***  ");
+		gotoxy(i,48+y);printf("*** **     ***     ***       ***      ***********  ***  ");
+		gotoxy(i,49+y);printf("***  ***   ***     ***       ***      ***********  ***  ");
+		gotoxy(i,50+y);printf("***   ***   ***   ***        ***      ***     ***  ***  ");
+		gotoxy(i,51+y);printf("***   ***     *****          ***      ***     ***  ***  ");			
+	}
+	else if(k==4)
+	{
+		system("color A0");
+		int i=20;
+		gotoxy(i,44+y);printf("*****      *********  ***       ***    *******    ***   ***  ");
+		gotoxy(i,45+y);printf("***  **    *********  ****     ****   ***   ***   ***   ***  ");
+		gotoxy(i,46+y);printf("***   ***  ***        *****   *****  ***     ***  ***  ***   ");
+		gotoxy(i,47+y);printf("***   ***  ********   *** ***** ***  ***     ***  *** **     ");
+		gotoxy(i,48+y);printf("***   ***  ********   ***  ***  ***  ***********  *** **     ");
+		gotoxy(i,49+y);printf("***   ***  ***        ***   *   ***  ***********  ***  ***   ");
+		gotoxy(i,50+y);printf("***  **    *********  ***       ***  ***     ***  ***   ***  ");
+		gotoxy(i,51+y);printf("*****      *********  ***       ***  ***     ***  ***   ***  ");			
+	}
+	int i=35; y = -15;
+	gotoxy(i,44+y);printf("***       *** *** ***   ***");
+	gotoxy(i,45+y);printf("***       *** *** ****  ***");
+	gotoxy(i,46+y);printf("***       *** *** ***** ***");
+	gotoxy(i,47+y);printf("*** ***** *** *** *********");
+	gotoxy(i,48+y);printf("****** ****** *** *** *****");
+	gotoxy(i,49+y);printf("*****   ***** *** ***  ****");
+	gotoxy(i,50+y);printf("****     **** *** ***   ***");
+}
+
 void papan()
 {
 	system("cls");
@@ -817,7 +1042,8 @@ void intro_pion(int player, int hero, int x, int y){
 	int yt = (y+23);
 	int x0 = x;
 	int y0 = y;
-	int color, muda;
+	int b=0,k=0,cek;
+	int color, muda,warna,latar;
 	if(player == 0){
 		color = 1;
 	}
@@ -831,13 +1057,23 @@ void intro_pion(int player, int hero, int x, int y){
 		color = 2;
 	}
 	muda = color + 8;
-	while(y0<=yt){
+	
+	while((y0<=yt)||(b<24)){
 		x0=x;
-		while(x0<=xt){
+		k=0;
+		while((x0<=xt)||(k<36)){
+			cek = 0;
 			switch(hero)
 			{
 				case 1://Banteng
-					
+					if((k==2&&b==3)||(k==3&&(b<=4&&b>=1))||((k==4||k==5)&&(b<=5))||(k==6&&(b>=3&&b<=5))||(k==5&&(b==6||b==13))||(k==4&&(b<=12&&b>=7))||(b==4&&(k<=13&&k>=7))||(k==6&&(b>=14&&b<=16))||(b==17&&k==7)||(k==8&&(b>=18&&b<=20))||((k==9||k==11)&&((b>=21&&b<=23)||b==7))||(b==20&&k==12)||(b==21&&k==13)||((b==4||b==5)&&(k<=17&&k>=14))||((b==4||b==3)&&(k<=18&&k>=16))||((b==2||b==3)&&(k<=19&&k>=17))||((b==2||b==1)&&(k<=20&&k>=18))||(b==0&&k==19)||(b==6&&k==15)||(b==7&&k==16)||(b==8&&(k<=18&&k>=14))||(b==9&&k==19)||(b==10&&k==18)||(b==11&&k==17)||(b==12&&(k<=16&&k>=14))||(k==14&&(b>=19))||(k==16&&(b>=22))||(k==17&&(b>=19&&b<=21))||(b==21&&(k<=21&&k>=17))||(k==22&&(b==20||b==22))||(k==23&&(b==20||b==21||b==23))||(b==22&&(k<=26&&k>=24))||(b==23&&(k==25||k==27))||(k==30&&(b==23||b==22||b==19||b==15||b==13))||(k==29&&(b==21||b==20||b==14))||(k==31&&((b<=18&&b>=16)||b==14))||(b==14&&(k==34||k==35))||(b==13&&((k<=34&&k>=30)||k==28||k==27))||(b==11&&(k>=19&&k<=23))||(b==12&&(k<=26&&k>=24)))
+						{
+							warna = 0; cek = 1;
+						}
+					else if((b==7&&(k==10||k==15))||(b==5&&(k<=13&&k>=7))||(b==6&&(k==7||k==6))||((k==6||k==5)&&(b<=13&&b>=7))||(k==7&&(b<=16&&b>=13))||(b==17&&k==8)||(k==9&&(b<=20&&b>=18)))
+						warna = color*16;
+					else if(((b>=6&&b<=17)&&(k<=15&&k>=7))||((b>=9&&b<=21)&&(k<=18&&k>=15))||((b<=20&&b>=12)&&(k<=25&&k>=9))||((k==10||k==15)&&(b>=18))||((b>=14&&b<=22)&&(k<=29&&k>=22))||(b==13&&(k==26))||(k==30&&(b==14||(b<=18&&b>=16)))||(b==23&&(k==24||k==28||k==29)))
+						warna = muda*16;
 					break;
 				case 2://ksatria
 					if(((x0==x+13)&&(y0<=y+5))||((y0==y+2)&&((x0>=x+10)&&(x0<=x+23)))||
@@ -895,10 +1131,28 @@ void intro_pion(int player, int hero, int x, int y){
 //					}
 					break;
 				case 4://pemburu
-				
+					if((b==0&&(k>=18&&k<=20))||(b==1&&(k==21||k==22||(k<=17&&k>=13)))||(b==2&&(k==23||k==24||(k<=12&&k>=10)))||(b==3&&(k==5||(k<=9&&k>=7)||k==25))||(b==4&&(k==6||k==26))||(b==5&&(k==27||(k<=21&&k>=7)))||(b==6&&((k<=26&&k>=22)||k==28||k==7))||(b==7&&(k==7||(k<=29&&k>=26)||k==18||k==17||k==13||k==12))||((b>=8&&b<=10)&&(k==7||k==26))||(b==9&&k==5)||(b==10&&k==4)||(b==11&&(k==3||k==8||k==26))||(b==12&&(k==2||(k<=25&&k>=9)))||(b==10&&(k<=18&&k>=14))||(b==13&&(k==6||k==7||(k>=1&&k<=4)||k==25||(k<=30&&k>=28)))||((b==14||b==15)&&(k==1||k==2||k==24||k==26))||(b==15&&((k<=4&&k>=1)||(k<=9&&k>=6)||k==24||k==26))||(b==16&&(k==2||k==9||k==24||k==25||k==27))||(b==17&&(k==3||k==9||k==24||k==26))||(b==18&&(k==4||k==9||k==24||k==25||k==13||k==20))||(b==19&&(k==5||k==9||k==24||(k<=19&&k>=14)))||(b==20&&((k<=13&&k>=9)||(k<=24&&k>=20)))||(k==28&&b==15)||((k==29||k==30)&&b==14)||(b==15&&k==30))
+						{
+							warna = 0; cek = 1;
+						}
+					else if((b==1&&(k<=20&&k>=18))||(b==2&&(k<=22&&k>=20))||(b==3&&(k<=24&&k>=22))||(b==4&&(k==24||k==25))||(b==5&&(k==26||k==25))||(b==6&&k==27)||(b==7&&(k==14||k==19))||(b==9&&(k<=19&&k>=13))||(b==13&&((k<=11&&k>=8)||(k<=24&&k>=22)))||(b==14&&(k==8||k==9||k==22||k==23))||(b==15&&(k<=19&&k>=13))||((b==16||b==18)&&(k==14||k==18))||(b==19&&((k<=13&&k>=10)||(k<=23&&k>=20)))||((b<=18&&b>=13)&&(k<=17&&k>=15 )))
+						warna = 8*16;
+					else if((k==5&&(b>=10&&b<=18))||((b<=5&&b>=2)&&(k<=24&&k>=10))||(b==4&&(k<=9&&k>=7)))
+						warna = 7*16;
+					else if((b==14&&k==3)||((k==25||k==24)&&(b<=16&&b>=7))||(b==16&&k==26))
+						warna = color*16;
+					else if(((b<=11&&b>=6)&&(k<=23&&k>=8))||(b==14&&(k==4||k==6||k==7))||((b<=18&&b>=12)&&(k<=23&&k>=10)))
+						warna = muda*16;
 					break;
 				case 0://kuda
-				
+					if((b==0&&(k<10&&k>6))||(b==1&&(k==1||k==2||k==6||k==10||(k<=16&&k>=14)))||(b==2&&(k==1||(k<=5&&k>=3)||k==11||k==13||k==16))||(b==3&&(k==1||k==15||(k<=12&&k>=5)))||(b==4&&(k==2||k==6||k==13||k==14))||(b==5&&((k<=5&&k>=3)||k==7||k==14))||(k==4&&(b<=12&&b>=5))||(k==5&&b==13)||(k==6&&(b==14||b==21))||(k==7&&((b>=7&&b<=11)||b==15||b==20||b==22))||(k==8&&(b==6||(b<=14&&b>=12)||b==16||b==19||b==23))||(b==6&&(k==8||k==15))||(b==7&&(k==9||k==12||k==15))||(b==8&&((k<=12&&k>=10)||k==16))||(b==9&&(k==9||k==17))||(b==10&&(k==10||k==11||k==18))||(b==11&&(k==12||k==13||k==17||(k<=32&&k>=27)))||(b==12&&((k<=16&&k>=14)||k==26||k==33))||(b==13&&(k==15||(k<=26&&k>=19)||k==34))||(b==14&&((k<=18&&k>=16)||k==28||k==27||k==35))||(k==9&&(b==15||b==17||b==18||b==22||b==23))||(k==10&&(b==16||b==17||b==21))||(k==11&&b==20)||(k==12&&(b==17||b==19))||(k==13&&(b==18||b==19))||(k==14&&(b>=19&&b<=23))||(k==16&&(b<=23&&b>=22))||(k==17&&(b<=21&&b>=19))||(k==18&&b==20)||(b==21&&(k>=19&&k<=21))||(k==22&&(b==20||b==22))||(k==23&&(b==20||b==21||b==23))||(b==22&&((k>=26&&k<=24)||k==30))||((k==25||k==27||k==31)&&b==23)||(k==29&&(b==15||b==20||b==21))||(b==15&&(k==31||k==33||k==35))||(b==16&&(k==35||k==34||k==32||k==31||k==30))||(k==31&&(b==17||b==18))||(b==22&&(k<=26&&k>=24))||(k==30&&b==19)||(k==35&&(b<=16&&b>=14)))
+						{
+							warna = 0; cek = 1;
+						}
+					else if((b==1&&k==7)||(b==2&&(k==2||k==7||k==6))||(b==3&&k==4)||(k==5&&(b==4||(b>=6&&b<=12)))||(b==4&&(k<=12&&k>=7))||(b==5&&(k<=13&&k>=8))||(b==6&&(k<=14&&k>=9))||(k==8&&(b>=7&&b<=11))||(k==9&&(b==8||(b>=10&&b<=14)))||(b==9&&(k<=12&&k>=10))||((b==7||b==8)&&(k==13||k==14))||(b==8&&k==15)||((b==10||b==11)&&(k<=16&&k>=14))||(b==10&&k==17)||((b<=18&&b>=11)&&(k<=15&&k>=10))||(k==15&&b>=14)||(k==16&&(b<=21&&b>=15))||(k==17&&(b>=15&&b<=18))||(b==14&&((k>=20&&k<=22)||k==25||k==26))||(b==12&&(k==27||k==28))||(b==13&&k==27)||((b==16||b==17)&&(k<=22&&k>=20))||((b>=15&&b<=22)&&(k<=28&&k>=25))||(k==29&&(b>=16&&b<=19))||(k==30&&(b==17||b==18))||(b==18&&(k==18||k==24))||(b==19&&(k<=24&&k>=18))||((b==20||b==21)&&(k<=24&&k>=19))||((b==22||b==23)&&((k==23)||k==24||(k<=30&&k>=27)))||(b==22&&k==8)||(b==21&&(k<=9&&k>=7))||((b==19||b==20)&&(k<=11&&k>=8)))
+						warna = muda*16;
+					else if(((b==1||b==2)&&(k==8||k==9))||(b==2&&(k==10||k==14||k==15))||(b==3&&(k==2||k==3||k==13||k==14))||(b==4&&(k==3||k==4))||((b==9||b==10)&&(k>=12&&k<=16))||(b==7&&(k==10||k==11))||((k==7||k==6)&&(b<=14&&b>=5))||(b==15&&k==8)||(b==16&&k==9)||((b<=18&&b>=14)&&(k<=24&&k>=18))||(((b>=12&&b<=15)&&(k>=28&&k<=34))&&!(k==34&&b==12)))
+						warna = color*16;
 					break;
 				case 5://penyihir
 					if(((y0==y)&&((x0>=x+15)&&(x0<=x+25)))||((y0==y+1)&&(((x0>=x+12)&&(x0<=x+19))||((x0>=x+21)&&(x0<=x+28))))||((y0==y+2)&&((x0>=x+10)&&(x0<=x+16)||((x0>=x+18)&&(x0<=x+24))||((x0>=x+26)&&(x0<=x+30))))||((y0==y+3)&&(((x0>=x+8)&&(x0<=x+12))||((x0>=x+14)&&(x0<=x+20))||((x0>=x+22)&&(x0<=x+27))))||((y0==y+4)&&((x0==x+7)||(x0==x+8)||((x0>=x+10)&&(x0<=x+15))||((x0>=x+17)&&(x0<=x+22))||((x0>=x+24)&&(x0<=x+26))))||((y0==y+5)&&((x0>=x+6)&&(x0<=x+27)))||(((x0==x+7)||(x0==x+26))&&((y0>=y+6)&&(y0<=y+10)))||((y0==y+7)&&((x0==x+12)||(x0==x+13)||(x0==x+17)||(x0==x+18)))||((y0==y+10)&&((x0>=x+14)&&(x0<=x+18)))||((y0==y+11)&&((x0==x+8)||(x0==x+25)))||((y0==y+12)&&(((x0>=x+6)&&(x0<=x+13))||((x0>=x+19)&&(x0<=x+27))))||((y0==y+13)&&(((x0>=x+7)&&(x0<=x+9))||((x0>=x+22)&&(x0<=x+26))))||((y0==y+14)&&((x0==x+4)||(x0==x+7)||(x0==x+8)||(x0==x+10)||((x0>=x+23)&&(x0<=x+26))))||((y0==y+15)&&((x0==x+5)||(x0==x+7)||(x0==x+10)||(x0==x+24)||(x0==x+26)))||((y0==y+16)&&(((x0>=x+6)&&(x0<=x+8))||(x0==x+10)||((x0>=x+24)&&(x0<=x+27))))||((y0==y+17)&&((x0==x+6)||(x0==x+7)||(x0==x+10)||(x0==x+24)||(x0==x+27)))||((y0==y+18)&&((x0==x+10)||(x0==x+11)||(x0==x+13)||(x0==x+20)||(x0==x+22)|(x0==x+23)||(x0==x+25)))||((y0==y+19)&&((x0==x+9)||((x0>=x+14)&&(x0<=x+19))||(x0==x+25)))||((y0==y+20)&&(((x0>=x+9)&&(x0<=x+13))||((x0>=x+20)&&(x0<=x+25))))){
@@ -950,11 +1204,46 @@ void intro_pion(int player, int hero, int x, int y){
 //					}
 					break;
 			}
+			if((hero == 1)||(hero==4)||(hero==0)){
+				if((warna!=0||cek!=0)){
+					setcolor(warna); gotoxy(k+x,b+y); printf(" ");
+				}
+			}
+			k++;
 			x0++;
 		}
+		b++;
 		y0++;
 	}
 	
+}
+
+void pionmu(int player){
+	gotoxy(2,26);printf("Pion yang dipilih: ");
+	int i,x,y;
+	for(i=0;i<4;i++){
+				switch(i){
+					case 0:
+						x=2;
+						y=28;
+						break;
+					case 1:
+						x=9;
+						y=28;
+						break;
+					case 2:
+						x=16;
+						y=28;
+						break;
+					case 3:
+						x=23;
+						y=28;
+						break;
+				}
+				if(home[player][i].type!= -1){
+					gerak_pion(player, home[player][i].type, x, y+4);
+				}
+			}
 }
 
 void menu_permainan(){
@@ -1269,7 +1558,7 @@ void drawdice(int x, int y, int dadu){
 
 
 int Print_Pion_Baru_Menu(int No_Player, int t){
-	int warna;
+	int warna,j;
 	if(No_Player == 0){
 		warna = 9;
 	}
@@ -1292,15 +1581,21 @@ int Print_Pion_Baru_Menu(int No_Player, int t){
 		P = ListPlayer[No_Player].Pion;
 		while(P != Nil)
 			{
-				Pion = Koordinat(P->type);
-				gerak_pion(No_Player, P->type, Pion.x, Pion.y);
+				for(i = 0; i < 4;i++)
+					{
+						if(home[No_Player][i].type == P->type && home[No_Player][i].pion == false)
+							{	
+								Pion = Koordinat(i);
+								gerak_pion(No_Player, P->type, Pion.x, Pion.y);
+							}
+					}
 				P = P->next;
 			}
 	}else{
 		Jmlh_Pion=0;
 		for(i = 0; i < 4; i++){
 			if(home[No_Player][i].pion == true){
-				Pion = Koordinat(home[No_Player][i].type);	
+				Pion = Koordinat(i);	
 				gerak_pion(No_Player, home[No_Player][i].type, Pion.x, Pion.y);
 				Jmlh_Pion++;
 			}
@@ -1414,4 +1709,202 @@ int gamemode(){
 		
 	}while(korektor!=1);
 	return pil;
+}
+
+void covered_pion(int x, int y){
+	int xt = (x+35);
+	int yt = (y+23);
+	int x0 = x;
+	int y0 = y;
+	while(y0<=yt){
+		x0=x;
+		while(x0<=xt){
+	if(((x0==x+13)&&(y0<=y+5))||((y0==y+2)&&((x0>=x+10)&&(x0<=x+23)))||
+					((y0==y+3)&&((x0==x+9)||(x0==x+24)))||((y0==y+4)&&((x0==x+8)||(x0==x+25)||(x0==x+14)))
+					||((y0==y+5)&&((x0==x+7)||(x0==x+14)||(x0==x+15)||(x0==x+16)||(x0==x+26)))
+					||((y0==y+6)&&((x0==x+7)||(x0==x+14)||(x0==x+15)||(x0==x+26)))
+					||((y0==y+7)&&((x0==x+7)||((x0>=x+9)&&(x0<=x+13))||((x0>=x+16)&&(x0<=x+22))
+					||(x0==x+26)))||((y0==y+8)&&((x0==x+7)||(x0==x+10)||(x0==x+14)||(x0==x+15)||(x0==x+21)||(x0==x+26)))
+					||((y0==y+9)&&((x0==x+7)||(x0==x+11)||(x0==x+14)||(x0==x+20)||(x0==x+25)||(x0==x+26)))
+					||((y0==y+10)&&((x0==x+8)||((x0>=x+12)&&(x0<=x+19))||(x0==x+25)))
+					||((y0==y+11)&&((x0==x+7)||(x0==x+11)||(x0==x+13)||(x0==x+15)||(x0==x+17)||(x0==x+20)||(x0==x+26)))
+					||((y0==y+12)&&((x0>=x+6)&&(x0<=x+27)))||((y0==y+13)&&(((x0>=x+7)&&(x0<=x+9))||((x0>=x+22)&&(x0<=x+26))))
+					||((y0==y+14)&&((x0==x+7)||(x0==x+8)||(x0==x+10)||((x0>=x+23)&&(x0<=x+26))))
+					||((y0==y+15)&&((x0==x+7)||(x0==x+10)||(x0==x+24)||(x0==x+26)))
+					||((y0==y+16)&&((x0==x+7)||(x0==x+8)||(x0==x+10)||((x0>=x+24)&&(x0<=x+27))))
+					||((y0==y+17)&&((x0==x+6)||(x0==x+7)||(x0==x+10)||(x0==x+24)||(x0==x+27)))
+					||((y0==y+18)&&((x0==x+10)||(x0==x+11)||(x0==x+13)||(x0==x+20)||(x0==x+22)||(x0==x+23)||(x0==x+25)))
+					||((y0==y+19)&&((x0==x+9)||((x0>=x+14)&&(x0<=x+19))||(x0==x+25)))||((y0==y+20)&&(((x0>=x+9)&&(x0<=x+13))||((x0>=x+20)&&(x0<=x+25))))){
+						gotoxy(x0,y0);setcolor(16*7);printf(" ");setcolor(8);
+					}
+					else if((y0==y+3 &&(((x0>=x+10)&&(x0<=x+12))||((x0>=x+14)&&(x0<=x+21))))||((y0==y+4)&&(((x0>=x+9)&&(x0<=x+12))||((x0>=x+15)&&(x0<=x+22))))||(((y0==y+5)||(y0==y+6))&&(((x0>=x+8)&&(x0<=x+12))||((x0>=x+16)&&(x0<=x+23))))||((y0==y+6)&&(x0==x+13))||((y0==y+7)&&((x0==x+8)||(x0==x+14)||(x0==x+15)||(x0==x+23)))||((y0==y+8)&&((x0==x+8)||(x0==x+9)||(x0==x+22)||(x0==x+23)))||((y0==y+9)&&(((x0>=x+8)&&(x0<=x+10))||(x0==x+21)||(x0==x+22)))||((y0==y+10)&&(((x0>=x+9)&&(x0<=x+11))||((x0>=x+20)&&(x0<=x+22))))||((y0==y+11)&&(((x0>=x+8)&&(x0<=x+8+2))||(((x0>=x+21)&&(x0<=x+21+2)))))||((y0==y+14)&&((x0>=x+13)&&(x0<=x+18)))||((y0==y+15)&&((x0==x+11)||(x0==x+12)||(x0==x+19)||(x0==x+20)))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+					else if(((y0==y+3)&&((x0==x+22)||(x0==x+23)))||((y0==y+4)&&((x0==x+23)||(x0==x+24)))||(((y0>=y+5)&&(y0<=y+11))&&(x0==x+24))||(((y0>=y+5)&&(y0<=y+8))&&(x0==x+25))||((x0==x+23)&&((y0==y+9)||(y0==y+10)))||((x0==x+25)&&(y0==y+11))||((y0==y+13)&&((x0==x+3)||(x0==x+10)||(x0==x+30)))||((y0==y+14)&&((x0==x+4)||(x0==x+9)||(x0==x+22)||(x0==x+29)))||((y0==y+15)&&((x0==x+5)||(x0==x+8)||(x0==x+9)||((x0>=x+13)&&(x0<=x+18))||(x0==x+23)||(x0==x+25)||(x0==x+28)))||((y0==y+16)&&((x0==x+6)||((x0>=x+11)&&(x0<=x+13))||((x0>=x+18)&&(x0<=x+23))))||((y0==y+17)&&((x0==x+8)||(x0==x+23)||(x0==x+26)))||((y0==y+18)&&((x0==x+12)||(x0==x+21)||(x0==x+24)))||((y0==y+19)&&(((x0>=x+10)&&(x0<=x+14))||((x0>=x+20)&&(x0<=x+24))))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+					else if(((y0==y+8)&&(((x0>=x+11)&&(x0<=x+13))||((x0>=x+16)&&(x0<=x+20))))||((y0==y+9)&&((x0==x+12)||(x0==x+13)||((x0>=x+15)&&(x0<=x+19))))||((y0==y+11)&&((x0==x+12)||(x0==x+14)||(x0==x+16)||(x0==x+18)||(x0==x+19)))||((y0==y+16)&&((x0>=x+14)&&(x0<=x+17)))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+					else if(((y0==y+13)&&((x0>=x+11)&&(x0<=x+21)))||((y0==y+14)&&((x0>=x+19)&&(x0<=x+21)||(x0==x+11)||(x0==x+12)))||((y0==y+15)&&((x0==x+21)||(x0==x+22)))||((y0==y+17)&&((x0>=x+11)&&(x0<=x+22)))||((y0==y+18)&&((x0>=x+14)&&(x0<=x+19)))){
+						gotoxy(x0,y0);setcolor(7*16);printf(" ");setcolor(8);
+					}
+			x0++;
+		}
+		y0++;
+	}
+}
+
+int pilih_pion(int np){
+	int pencet,x=74,y=40,xt=71,yt=9;
+	int hero=0,korektor=0;
+	while(hero<=4){
+		gerak_pion(np,hero,72+(7*hero),36);	
+		hero++;
+	}
+	hero=0;
+	while(hero<=1){
+		gerak_pion(np,hero+5,83+(7*hero),41);	
+		hero++;
+	}
+	x=74;y=40;
+	do{
+		for(xt=71;xt<=106;xt++){
+			for(yt=9;yt<=32;yt++){
+				gotoxy(xt,yt);setcolor(15*16);printf(" ");setcolor(8);
+			}
+		}
+		for(xt=71;xt<=106;xt++){
+			for(yt=47;yt<=50;yt++){
+				gotoxy(xt,yt);setcolor(15*16);printf(" ");setcolor(8);
+			}
+		}
+		gotoxy(x,y);setcolor(15*16);printf("%c%c",17,16);setcolor(8);
+		if(x==74 && y==40){
+			hero=0;
+			gotoxy(87,34);setcolor(15*16);printf("KUDA");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 20%c kesempatan untuk",'%');
+			gotoxy(73,48);setcolor(15*16);printf("melangkah dua kali lebih jauh");
+		}
+		else if(x==81 && y==40){
+			hero=1;
+			gotoxy(85,34);setcolor(15*16);printf("BANTENG");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 20%c kesempatan untuk",'%');
+			gotoxy(73,48);setcolor(15*16);printf("melangkah ke posisi di belakang");
+			gotoxy(73,48+1);setcolor(15*16);printf("pion yang berada di 12 petak");
+			gotoxy(73+9,48+2);setcolor(15*16);printf("di depannya ");
+		}
+		else if(x==88 && y==40){
+			hero=2;
+			gotoxy(85,34);setcolor(15*16);printf("KSATRIA");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 20%c kesempatan untuk",'%');
+			gotoxy(73,48);setcolor(15*16);printf("membuat pion kawan dan dirinya");
+			gotoxy(73+4,48+1);setcolor(15*16);printf("melangkah sejauh 3 petak");
+		}	
+			
+		else if(x==95 && y==40){
+			hero=3;
+			gotoxy(85,34);setcolor(15*16);printf("PENGINTAI");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 50%c kesempatan untuk",'%');
+			gotoxy(73,47+1);setcolor(15*16);printf("melangkah 2 langkah lebih jauh");
+			
+		}	
+		else if(x==102 && y==40){
+			hero=4;
+			gotoxy(85,34);setcolor(15*16);printf("PEMBURU");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 50%c kesempatan untuk",'%');
+			gotoxy(73,48);setcolor(15*16);printf("membunuh pion lawan terdekat");
+			gotoxy(73,48+1);setcolor(15*16);printf("   yang berada di 3 petak");
+			gotoxy(73,48+2);setcolor(15*16);printf("       di depannya");
+		}
+		else if(x==85 && y==45){
+			hero=5;
+			gotoxy(85,34);setcolor(15*16);printf("PENYIHIR");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 100%c kesempatan untuk",'%');
+			gotoxy(73,48);setcolor(15*16);printf("menggunakan kemampuan hero lain");
+		}
+		else if(x==92 && y==45){
+			hero=6;
+			gotoxy(87,34);setcolor(15*16);printf("PATIH");
+			gotoxy(73,47);setcolor(15*16);printf("Memiliki 30%c kesempatan untuk",'%');
+			gotoxy(73,48);setcolor(15*16);printf("      memanipulasi nilai");
+			gotoxy(73,48+1);setcolor(15*16);printf("     dadu yang didapatkan");
+		}
+		intro_pion(np,hero,71,9);
+		
+		pencet=getch();
+		gotoxy(x,y);setcolor(15*16);printf("  ");setcolor(8);
+		gotoxy(85,34);setcolor(15*16);printf("          ");setcolor(8);
+		if(pencet==13 || pencet==32){
+			korektor=1;
+		}
+		if(pencet==75){//kiri
+			if(x==74 && y==40){
+				
+				x=92;y=45;
+			}
+			else if(x==85 && y==45){
+				x=102;y=40;
+			}
+			else{
+				x-=7;
+			}
+			
+		}
+		if(pencet==77){//kanan
+			if(x==102 && y==40){
+				x=85;y=45;
+			}
+			else if(x==92 && y==45){
+				x=74;y=40;
+			}
+			else{
+				x+=7;
+			}
+		}
+		
+	}while(korektor!=1);
+	return hero;
+}
+
+void story(int np){
+	int b,k;
+	b=73-1;k=2;
+	setcolor(16*15+0);
+	switch(np){
+		case 0:{
+			gotoxy(85-1,k);printf("SRIWIJAYA");
+			gotoxy(b,k+2);printf("Sriwijaya, bertujuan menghancurkan");
+			gotoxy(b,k+3);printf("      Pusaka Alam agar tidak     ");
+			gotoxy(b,k+4);printf("  terjadi perebutan kekuasaan    ");
+			gotoxy(b,k+5);printf("           di Indrata            ");
+			break;
+		}
+		case 1:{
+			gotoxy(85-1,k);printf("MAJAPAHIT");
+			gotoxy(b,k+2);printf("Majapahit, bertujuan menggunakan ");
+			gotoxy(b,k+3);printf("  Pusaka Alam untuk menyatukan   ");
+			gotoxy(b,k+4);printf("seluruh kerajaan Indrata menjadi ");
+			gotoxy(b,k+5);printf("satu dengan kekuatan Pusaka Alam ");
+			break;
+		}
+		case 2:{
+			gotoxy(87-1,k);printf("DEMAK");
+			gotoxy(b,k+2);printf(" Demak, bertujuan menyembunyikan ");
+			gotoxy(b,k+3);printf("Pusaka Alam sebagai alasan untuk ");
+			gotoxy(b,k+4);printf("    menyemimbangkan kekuatan     ");
+			gotoxy(b,k+5);printf("            di Indrata           ");
+			break;
+		}
+		case 3:{
+			gotoxy(87-1,k);printf("KUTAI");
+			gotoxy(b,k+2);printf("   Kutai, bertujuan menggunakan  ");
+			gotoxy(b,k+3);printf("  Pusaka Alam untuk meghentikan  ");
+			gotoxy(b,k+4);printf("  perang dan menetralkan Indrata ");
+//			gotoxy(b,k+4);printf("satu dengan kekuatan Pusaka Alam");
+			break;
+		}
+		
+	}
+	covered_pion(71,9);
 }

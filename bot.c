@@ -1,20 +1,7 @@
 #include"Lurik.h"
 
-Node SearchNodeToFlee( Node List, int value, int noPlayer);
-Node SearchNodeToEat( Node List, int value,int noPlayer);
-void keluarin_pion(int noPlayer);
-int petak_awal_player(int noPlayer);
-int step_left_to_be_eaten(int noPlayer,Node *temp);
-int finish_player(int noPlayer);
-int step_left_to_finish(int noPlayer,Node *temp);
-int tdk_ada_pion_di_petak_awal(int noPlayer);
-Node pion_terjauh(int noPlayer);
-void comp_turn(int noPlayer);
-int suicide(int noPlayer,int pos);
-
-
 void comp_turn(int noPlayer){//procedure gerak() blm d panggil
-	int warna,dadu,yg_gerak_pion_ke,step_to_finish,step_to_eat,step_to_be_eaten,difficulty=2,type;
+	int warna,dadu,yg_gerak_pion_ke,step_to_finish,step_to_eat,step_to_be_eaten,type;
 	Node temp,P;
 	int safe_zone=finish_player(noPlayer)-5;Lokasi Posisi;int x;
 	
@@ -36,7 +23,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 		case 0:
 			step_to_finish=step_left_to_finish(noPlayer,&temp);
 			if(ListPlayer[noPlayer].Info.chance>0){
-				if(step_to_finish&&!ada_pion_di_home(noPlayer)&&tdk_ada_pion_di_main_track(noPlayer)){			//cek jk ada pion d safezone
+				if(step_to_finish){			//cek jk ada pion d safezone
 					if(step_to_finish%2==0){
 						dadu=shake_dice(2,94,47,noPlayer);
 						ListPlayer[noPlayer].Info.chance--;
@@ -50,7 +37,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			}else{
 				dadu=shake_dice(1,94,47,noPlayer);
 			}
-			gotoxy(0,60);printf("chance p%d: %d",noPlayer,ListPlayer[noPlayer].Info.chance);
+			//gotoxy(0,60);printf("chance p%d: %d",noPlayer,ListPlayer[noPlayer].Info.chance);
 			Sleep(1000);
 			//getch();
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
@@ -79,16 +66,29 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 						dadu=shake_dice(3,94,47,noPlayer);
 						ListPlayer[noPlayer].Info.chance--;
 					}
-				}else{
+				}else
+				if(pion_di_safetrack(noPlayer)==1&&ListPlayer[noPlayer].Info.finish+pion_di_safetrack(noPlayer)==4){
+					step_to_finish=step_left_to_finish(noPlayer,&temp);
+					if(step_to_finish%2==0){
+						dadu=shake_dice(2,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}else{
+						dadu=shake_dice(3,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}
+				}
+				else
+				{
 					dadu=shake_dice(1,94,47,noPlayer);
 				}
 			}else{
 				dadu=shake_dice(1,94,47,noPlayer);
 			}
-			gotoxy(0,60);printf("chance p%d: %d, dadu %d",noPlayer,ListPlayer[noPlayer].Info.chance,dadu);
+			//gotoxy(0,60);printf("chance p%d: %d, dadu %d",noPlayer,ListPlayer[noPlayer].Info.chance,dadu);
 			Sleep(1000);
 			//getch();
 			if(dadu==step_to_eat){
+				int step_to_eat=step_left_to_eat(noPlayer,&temp);
 				moving(noPlayer,temp,dadu);
 			}else
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){
@@ -97,7 +97,8 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			if(dadu==step_to_finish){			//cek jk ada pion d safezone
 				int step_to_finish=step_left_to_finish(noPlayer,&temp);	
 				moving(noPlayer,temp,dadu);
-			}else{
+			}else
+			{
 				if(CountNode(ListPlayer[noPlayer].Pion)!=0){
 					temp=pion_terjauh(noPlayer);
 					moving(noPlayer,temp,dadu);
@@ -118,15 +119,28 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 						dadu=shake_dice(3,94,47,noPlayer);
 						ListPlayer[noPlayer].Info.chance--;
 					}
-				}else{
+				}else
+				if(pion_di_safetrack(noPlayer)==1&&ListPlayer[noPlayer].Info.finish+pion_di_safetrack(noPlayer)==4){
+					step_to_finish=step_left_to_finish(noPlayer,&temp);
+					if(step_to_finish%2==0){
+						dadu=shake_dice(2,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}else{
+						dadu=shake_dice(3,94,47,noPlayer);
+						ListPlayer[noPlayer].Info.chance--;
+					}
+				}
+				else
+				{
 					dadu=shake_dice(1,94,47,noPlayer);
 				}
 			}else{
 				dadu=shake_dice(1,94,47,noPlayer);
 			}
-			if(ListPlayer[noPlayer].Pion!=NULL) x=ListPlayer[noPlayer].Pion->Position;
-			gotoxy(0,60);printf("chance p%d: %d, pos=%d",noPlayer,ListPlayer[noPlayer].Info.chance,x);
+			//if(ListPlayer[noPlayer].Pion!=NULL) x=ListPlayer[noPlayer].Pion->Position;
+			//gotoxy(0,60);printf("chance p%d: %d, pos=%d",noPlayer,ListPlayer[noPlayer].Info.chance,x);
 			Sleep(1000);
+			step_to_be_eaten=step_left_to_be_eaten(noPlayer,&temp);
 			//getch();
 			if(dadu==step_to_eat){
 				int step_to_eat=step_left_to_eat(noPlayer,&temp);
@@ -136,7 +150,7 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 			if(dadu==6&&tdk_ada_pion_di_petak_awal(noPlayer)&&ada_pion_di_home(noPlayer)){//ada pion d home blm fix
 				keluarin_pion(noPlayer);
 			}else
-			if(step_to_be_eaten){
+			if(step_to_be_eaten&&!suicide( noPlayer,temp->Position+dadu)){
 				//getch();
 				step_to_be_eaten=step_left_to_be_eaten(noPlayer,&temp);
 				moving(noPlayer,temp,dadu);
@@ -156,6 +170,15 @@ void comp_turn(int noPlayer){//procedure gerak() blm d panggil
 	}
 }
 
+int pion_di_safetrack(int noPlayer){
+	int x;
+	Node temp=ListPlayer[noPlayer].Pion;
+	while(temp!=NULL){
+		if(temp->Position>52)x++;
+		temp=temp->next;
+	}
+}
+
 Node pion_terjauh(int noPlayer){
 	int max=-9,x;
 	Node target,temp=ListPlayer[noPlayer].Pion;
@@ -172,7 +195,7 @@ Node pion_terjauh(int noPlayer){
 
 int suicide(int noPlayer,int pos){
 	Node temp=ListPlayer[noPlayer].Pion;
-	while(temp->next!=NULL){
+	while(temp!=NULL){
 		if(temp->Position==pos)return(1);
 		temp=temp->next;
 	}
@@ -182,15 +205,14 @@ int suicide(int noPlayer,int pos){
 	
 
 void keluarin_pion(int noPlayer){//unclean
-	int type_pion = CekHome(noPlayer);	
-	Lokasi Posisi;
+	int type_pion=CekHome(noPlayer);Lokasi Posisi;
 	InsLast(&ListPlayer[noPlayer].Pion,type_pion,13*noPlayer);
 	Node temp=ListPlayer[noPlayer].Pion;
 	while(temp->next!=NULL)temp=temp->next;
 	temp->Position = 13*noPlayer;
 	Posisi=posisi_koordinat(temp->Position);
 	moving(noPlayer,temp,1);
-	home[noPlayer][type_pion].pion = false;
+	setHome(type_pion,false,noPlayer);
 	Print_Awal(noPlayer);
 }
 

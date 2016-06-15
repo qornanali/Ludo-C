@@ -61,7 +61,7 @@ Player ListPlayer[4];
 
 status home[4][4];
 int Dice_Pattern[6][6];
-
+int difficulty;
 int terbesar,mode;
 /* --------------------- Prototype -------------------- */
 
@@ -72,6 +72,9 @@ void gotoxy(int x, int y);
 void setcolor(unsigned short color);
 void draw_shape(int x,int y,int v, int h, int type);
 void menu();
+void menu2();
+void menu3();
+void menu4();
 void intro();
 void papan();
 void clear_kotak(int x, int y);
@@ -83,6 +86,11 @@ void ClearPilihan( int warna);
 Lokasi Koordinat(int No_Pion);
 int Print_Pion_Baru_Menu(int No_Player, int t);
 void intro_pion(int player, int hero, int x, int y);
+void story(int np);
+int pilih_pion(int np);
+void covered_pion(int x, int y);
+void cek_menang();
+void pionmu(int player);
 
 /* Data Prototype */
 void prepareplayer(int x, int y, int n);
@@ -134,6 +142,5 @@ int CountNode( Node List);
 int DelP( Node *List, int value);
 
 /*bot prototype*/
-
 
 #endif

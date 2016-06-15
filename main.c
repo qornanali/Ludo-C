@@ -1,6 +1,7 @@
 #include "Lurik.h"
 
 int main() {
+	srand(time(NULL));
 	int count = 0,type = 0,temp;
 	int i;
 	system("MODE CON: COLS=108 LINE=62");
